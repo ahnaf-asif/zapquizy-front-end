@@ -10,12 +10,6 @@
       height="250"
       src="https://i.imgur.com/nAgLoH2.png"
     >
-        <!-- <v-badge>
-            <v-chip  bottom right color="secondary">
-                Computer Science
-            </v-chip>
-        </v-badge> -->
-
     </v-img>
     
 
@@ -47,7 +41,7 @@ export default {
     ],
     data(){
         return {
-
+            loading: false,
         }
     }
 }

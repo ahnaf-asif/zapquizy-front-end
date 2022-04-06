@@ -1,27 +1,27 @@
 <template>
   <v-app>
-    <v-app-bar :clipped-left="clipped" fixed app flat elevation="1" color="white">
-      <NuxtLink class="nav-link-item" to="/">
-        <v-toolbar-title v-text="title" class="nav-title" />
-      </NuxtLink>
-      <v-spacer />
-
-      <DesktopNavLinks></DesktopNavLinks>
-      <v-btn v-if="$vuetify.breakpoint.xsOnly || $vuetify.breakpoint.smOnly " icon @click.stop="rightDrawer = !rightDrawer" >
-        <v-icon>mdi-menu</v-icon>
-      </v-btn>
-    </v-app-bar>
-    <v-main>
-      <v-container>
+      <v-app-bar :clipped-left="clipped" fixed app flat elevation="1" color="white">
+          <v-container class="pa-0 fill-height">
+            <NuxtLink class="nav-link-item nav-title-link" to="/">
+              <v-toolbar-title v-text="title" class="nav-title" />
+            </NuxtLink>
+            <v-spacer />
+            <DesktopNavLinks></DesktopNavLinks>
+            <v-btn v-if="$vuetify.breakpoint.xsOnly || $vuetify.breakpoint.smOnly " icon @click.stop="rightDrawer = !rightDrawer" >
+            <v-icon>mdi-menu</v-icon>
+            </v-btn>
+          </v-container>
+      </v-app-bar>
+    <v-main> 
+      
         <Nuxt />
-      </v-container>
     </v-main>
 
     <v-navigation-drawer v-if="$vuetify.breakpoint.xsOnly || $vuetify.breakpoint.smOnly" v-model="rightDrawer" :right="right" temporary fixed>
       <MobileNavLinks></MobileNavLinks>
     </v-navigation-drawer>
 
-    <v-footer :absolute="!fixed" app color="blue-grey darken-4 white--text" class="py-10">
+    <!-- <v-footer :absolute="!fixed" app color="blue-grey darken-4 white--text" class="py-10">
       <v-row> 
         <v-col cols="12" md="5">
           <h1 class="mb-10">Let's work Together</h1>
@@ -50,36 +50,51 @@
           <p class="text-center">Leave us a message here.</p>
         </v-col>
       </v-row>
-    </v-footer>
+    </v-footer> -->
   </v-app>
 </template>
 
 <style lang="scss">
-.nav-title{
-  font-size: 24px !important;
-  //font-weight: bold;
-  &:hover{
-    color: darkblue;
-  }
-}
+
 .nav-link{
   display: flex;
-  color: red;
-}
-.nav-link-item{
-  color: black !important;
-  text-decoration: none;
-  //font-size: 1.2em;
-  &:hover{
-    color: darkorange !important;
+  padding: 0;
+  margin: 0;
+  a{
+    color: black;
+    text-decoration: none;
+    &:hover{
+      color: blue;
+    }
   }
 }
-.navbar-v-menu{
-  border: 2px solid darkorange !important;
+.nav-title-link{
+  
+  // text-decoration: none;
+  color: black !important;
+  text-decoration: none;
+  &:hover{
+    color: blue !important;
+  }
+  
 }
-ul{
-  list-style: none;
+.nuxt-link{
+    color: black;
+    text-decoration: none;
+    &:hover{
+      color: blue !important;
+    }
 }
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
 </style>
 
 
@@ -95,12 +110,8 @@ export default {
       drawer: false,
       fixed: false,
       rightDrawer: false,
-      title: 'Boson Science Club',
-      items: [
-        {
-          'title': 'hello world'
-        }
-      ]
+      right: false,
+      title: 'ZapQuizy'
     }
   },
   methods: {

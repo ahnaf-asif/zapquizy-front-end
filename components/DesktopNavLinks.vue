@@ -1,7 +1,6 @@
 <template>
   <v-list class="nav-link" v-if="!($vuetify.breakpoint.xsOnly || $vuetify.breakpoint.smOnly)" >
-    <v-list-item>
-
+    <!-- <v-list-item>
       <v-menu offset-y rounded="0" content-class="elevation-2" class="navbar-v-menu">
         <template v-slot:activator="{ on, attrs }"  >
           <a class="nav-link-item text-uppercase" v-bind="attrs" v-on="on" style="display: flex;">
@@ -23,18 +22,13 @@
           </v-list-item>
         </v-list>
       </v-menu>
+    </v-list-item> -->
+    
+    <v-list-item>
+      <NuxtLink class="nav-link-item text-uppercase" to="/model-tests/">Model&nbsp;Tests</NuxtLink>
     </v-list-item>
     <v-list-item>
-      <NuxtLink class="nav-link-item text-uppercase" to="/problems/">Problems</NuxtLink>
-    </v-list-item>
-    <v-list-item>
-      <NuxtLink class="nav-link-item text-uppercase" to="/gallery/">Gallery</NuxtLink>
-    </v-list-item>
-    <v-list-item>
-      <NuxtLink class="nav-link-item text-uppercase" to="/about/">About</NuxtLink>
-    </v-list-item>
-    <v-list-item>
-      <NuxtLink class="nav-link-item text-uppercase" to="/contact/">Contact</NuxtLink>
+      <NuxtLink class="nav-link-item text-uppercase" to="/quiz/">Quiz</NuxtLink>
     </v-list-item>
     <v-list-item>
       <NuxtLink class="nav-link-item text-uppercase" to="/login/">Login</NuxtLink>
@@ -52,6 +46,6 @@ name: "DesktopNavLinks"
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 
 </style>
