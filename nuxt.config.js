@@ -40,11 +40,34 @@ export default {
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
+    '@nuxtjs/auth-next',
+    '@nuxt/http',
   ],
-
+  auth: {
+    strategies: {
+      laravelSanctum: {
+        provider: 'laravel/sanctum',
+        url: 'http://localhost:8000',
+        endpoints: {
+          login: {
+            url: '/login'
+          },
+        }
+      },
+    }
+  },
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
+    baseURL: 'http://localhost:8000',
+    credentials: true,
+  },
+  http: {
+    baseURL: 'http://localhost:8000',
 
+  },
+
+  router: {
+    middleware: []
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa

@@ -1,20 +1,19 @@
 <template>
   <v-app>
-      <v-app-bar :clipped-left="clipped" fixed app flat elevation="1" color="white">
-          <v-container class="pa-0 fill-height">
-            <NuxtLink class="nav-link-item nav-title-link" to="/">
-              <v-toolbar-title v-text="title" class="nav-title" />
-            </NuxtLink>
-            <v-spacer />
-            <DesktopNavLinks :links="links"></DesktopNavLinks>
-            <v-btn v-if="$vuetify.breakpoint.xsOnly || $vuetify.breakpoint.smOnly " icon @click.stop="rightDrawer = !rightDrawer" >
-            <v-icon>mdi-menu</v-icon>
-            </v-btn>
-          </v-container>
-      </v-app-bar>
-    <v-main>
-<!--        {{ $auth.user }}-->
-        <Nuxt />
+    <v-app-bar :clipped-left="clipped" fixed app flat elevation="1" color="grey lighten-3">
+      <v-container class="pa-0 fill-height">
+        <NuxtLink class="nav-link-item nav-title-link" to="/admin">
+          <v-toolbar-title v-text="title" class="nav-title" />
+        </NuxtLink>
+        <v-spacer />
+        <DesktopNavLinks :links="links"></DesktopNavLinks>
+        <v-btn v-if="$vuetify.breakpoint.xsOnly || $vuetify.breakpoint.smOnly " icon @click.stop="rightDrawer = !rightDrawer" >
+          <v-icon>mdi-menu</v-icon>
+        </v-btn>
+      </v-container>
+    </v-app-bar>
+    <v-main class="mx-0">
+      <Nuxt />
     </v-main>
 
     <v-navigation-drawer v-if="$vuetify.breakpoint.xsOnly || $vuetify.breakpoint.smOnly" v-model="rightDrawer" :right="right" temporary fixed>
@@ -59,7 +58,8 @@ import DesktopNavLinks from '/components/DesktopNavLinks';
 import MobileNavLinks from '/components/MobileNavLinks';
 
 export default {
-  auth: false,
+  auth: true,
+  middleware: 'admin',
   components: {MobileNavLinks, DesktopNavLinks},
   transition: 'fade',
   data () {
@@ -69,12 +69,10 @@ export default {
       fixed: false,
       rightDrawer: false,
       right: false,
-      title: 'ZapQuizy',
+      title: 'Admin | ZapQuizy',
       links: [
-        {name: 'Model Test', to: '/model-test/'},
-        {name: 'Quiz', to: '/quiz/'},
-        {name: 'Features', to: '/features/'},
-        {name: 'Contact', to: '/contact/'},
+        {name: 'Model Tests', to: '/admin/model-test/'},
+        {name: 'Question Banks', to: '/admin/question-bank/'},
       ],
     }
   },
@@ -110,11 +108,11 @@ export default {
 
 }
 .nuxt-link{
-    color: black;
-    text-decoration: none;
-    &:hover{
-      color: blue !important;
-    }
+  color: black;
+  text-decoration: none;
+  &:hover{
+    color: blue !important;
+  }
 }
 .fade-enter-active,
 .fade-leave-active {
@@ -127,6 +125,3 @@ export default {
 }
 
 </style>
-
-
-

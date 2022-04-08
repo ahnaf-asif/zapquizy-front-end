@@ -9,7 +9,7 @@
             <v-card class="mx-auto my-3" max-width="374">
                 <v-img height="200" src="/ssc-chemistry.jpg"></v-img>
                 <v-card-title>SSC Botany</v-card-title>
-                
+
                 <v-card-text>
                     <div class="my-2 text-subtitle-1">
                         ৳ 200
@@ -30,7 +30,7 @@
             <v-card class="mx-auto my-3" max-width="374">
                 <v-img height="200" src="/hsc-botany.jpg"></v-img>
                 <v-card-title>HSC Botany</v-card-title>
-                
+
                 <v-card-text>
                     <div class="my-2 text-subtitle-1">
                         ৳ 200
