@@ -34,7 +34,7 @@
             required >
           </v-select>
           <div class="text-center">
-            <v-btn color="primary"  @click="updateModelTest">
+            <v-btn color="primary" outlined @click="updateModelTest">
               Update Model Test
             </v-btn>
           </div>
@@ -42,21 +42,34 @@
       </v-card-text>
     </v-card>
     <div class="my-5 mt-10"></div>
-    <v-dialog persistent v-model="newQuestionDialog" fullscreen hide-overlay transition="dialog-bottom-transition">
-      <template class="text-center" v-slot:activator="{ on, attrs }">
-        <v-btn color="primary" depressed outlined v-bind="attrs" v-on="on">
-          + Add New Question
-        </v-btn>
-      </template>
+<!--    <v-dialog persistent v-model="newQuestionDialog" fullscreen hide-overlay transition="dialog-bottom-transition">-->
+<!--      <template class="text-center" v-slot:activator="{ on, attrs }">-->
+<!--        <v-btn color="primary" depressed outlined v-bind="attrs" v-on="on">-->
+<!--          + Add New Question-->
+<!--        </v-btn>-->
+<!--      </template>-->
+<!--      -->
+<!--    </v-dialog>-->
+    <v-btn color="primary" v-if="!newQuestionDialog" @click="addQuestionClicked()" depressed outlined >+ Add New Question</v-btn>
+    <div v-if="newQuestionDialog" class="question-panel">
       <QuestionPanel
+
         ref="questionPanel"
         v-on:close-without-save="newQuestionCloseWithoutSave"
         v-on:close-with-save="newQuestionWithSave"
       ></QuestionPanel>
-    </v-dialog>
+    </div>
+
     <div class="mt-10">
-      <h1 class="text-h4 text-center">All Questions</h1>
-<!--      <v-divider></v-divider>-->
+      <h1 class="text-h4 mb-5 text-center">All Questions</h1>
+      <v-list v-for="(question, index) in questions" elevation="3" :key="index" class="mt-8 bordered-list py-0" >
+        <div class="text-h6 px-3 py-3" v-html="question.name"></div>
+        <div v-for="(option, index2) in question.options" :key="index2" class="option">
+          <v-divider></v-divider>
+          <v-list-item v-html="option.name" :class="{'correct':option.correct}"></v-list-item>
+        </div>
+      </v-list>
+
     </div>
 
   </v-container>
@@ -116,11 +129,26 @@ export default {
         console.log(er);
       }
     },
+    addQuestionClicked(){
+      this.newQuestionDialog = true;
+    }
 
   },
 }
 </script>
 
 <style scoped>
-
+.correct{
+  background-color: #E8F5E9;
+}
+.bordered-list{
+  border: 1px;
+}
+/*.question-panel{*/
+/*  position: absolute;*/
+/*  left: 0;*/
+/*  top: 0;*/
+/*  width: 100vw;*/
+/*  height: 100vh;*/
+/*}*/
 </style>

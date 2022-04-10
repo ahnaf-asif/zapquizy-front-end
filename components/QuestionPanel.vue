@@ -1,6 +1,6 @@
 <template>
 
-  <v-card>
+  <v-card style="">
     <v-toolbar dark color="primary">
       <v-btn icon dark @click="closeWithoutSave()">
         <v-icon>mdi-close</v-icon>
@@ -43,6 +43,7 @@
           :config="editorConfig"
         />
         <div class="spacer mt-5"></div>
+        <div class="testing" v-html="mcqQuestion.name"></div>
         <v-alert v-if="err" dense type="error"
         >{{ errMsg }}</v-alert>
         <div v-for="(option, index) in mcqQuestion.options" :key="index" class="option">

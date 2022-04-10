@@ -13,12 +13,18 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ]
+    ],
+    script: [
+      {
+        src: 'https://www.wiris.net/demo/plugins/app/WIRISplugins.js?viewer=image',
+      },
+    ],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
     '@/assets/global.scss',
+    '@/assets/custom.scss',
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
@@ -52,6 +58,9 @@ export default {
           login: {
             url: '/login'
           },
+          register: {
+            url: '/register'
+          },
         }
       },
     }
@@ -84,7 +93,7 @@ export default {
       dark: false,
       themes: {
         dark: {
-          primary: colors.blue.darken2,
+          primary: '#6366f1',
           accent: colors.grey.darken3,
           secondary: colors.amber.darken3,
           info: colors.teal.lighten1,

@@ -1,7 +1,7 @@
 <template>
-  <v-container class="mt-5">
-    <v-row justify="center">
-      <v-col cols="12" sm="6" md="6">
+  <v-container fill-height style="display: flex;justify-content: center;align-items: center;">
+
+      <div class="regiform">
         <v-card max-width="450" shaped>
           <v-card-title>Register | ZapQuizy</v-card-title>
           <v-divider></v-divider>
@@ -10,12 +10,14 @@
               <v-text-field
                 v-model="name"
                 label="Name"
+                :error-messages="errorMessages.name"
                 required
               >
               </v-text-field>
               <v-text-field
                 v-model="email"
                 label="Email"
+                :error-messages="errorMessages.email"
                 :rules="emailRules"
                 required
               >
@@ -24,6 +26,7 @@
                 v-model="phone"
                 label="Phone"
                 :rules="phoneRules"
+                :error-messages="errorMessages.phone"
                 required
               >
               </v-text-field>
@@ -35,6 +38,7 @@
                 name="input-10-1"
                 label="Password"
                 hint="At least 8 characters"
+                :error-messages="errorMessages.password"
                 counter
                 @click:append="show1 = !show1"
               ></v-text-field>
@@ -46,23 +50,25 @@
                 name="input-10-1"
                 label="Confirm Password"
                 hint="At least 8 characters"
+                :error-messages="errorMessages.confirmPassword"
                 counter
                 @click:append="show2 = !show2"
               ></v-text-field>
 
               <div class="text-center mt-5">
-                <v-btn @click="submitForm" color="primary" depressed elevation="2" large>Register</v-btn>
+                <v-btn :disabled="disableBtn" @click="submitForm" ref="registerBtn" color="primary" depressed elevation="2" large>Register</v-btn>
               </div>
             </v-form>
           </v-card-text>
         </v-card>
-      </v-col>
-    </v-row>
+      </div>
   </v-container>
 </template>
 
 <script>
 export default {
+  auth: 'guest',
+  middleware: 'guest',
   transition: 'fade',
   name: "register.vue",
   data(){
@@ -92,15 +98,76 @@ export default {
 
       show1: false,
       show2: false,
-
+      errorMessages: {
+        name: null,
+        email: null,
+        password: null,
+        phone: null,
+        confirmPassword: null,
+      },
+      disableBtn: false,
+      prevRoute: {
+        fullPath: '/',
+      },
     }
+  },
+  beforeRouteEnter(to, from, next){
+    next( vm=>{
+      vm.prevRoute = from
+    })
   },
   mounted(){
     this.$refs.scrollTop = 0;
+    this.$axios.$get('/sanctum/csrf-cookie')
   },
   methods:{
     async submitForm(){
-      
+      if(this.password !== this.confirmPassword){
+        this.errorMessages.password = 'passwords must match';
+        this.errorMessages.confirmPassword = 'passwords must match';
+        return;
+      }
+      this.disableBtn = true;
+      try{
+        let newUser = {
+          name: this.name,
+          phone: this.phone,
+          email: this.email,
+          password: this.password
+        };
+        const resp = await this.$axios.$post('/register', newUser);
+        if(resp.error){
+          this.disableBtn = false;
+          if(resp.errors.email){
+            this.errorMessages.email = resp.errors.email;
+          }
+          if(resp.errors.phone){
+            this.errorMessages.phone = resp.errors.phone;
+          }
+          if(resp.errors.name){
+            this.errorMessages.name = resp.errors.name;
+          }
+        }
+        else{
+          // console.log(resp);
+          try{
+            const resp2 = await this.$auth.loginWith('laravelSanctum', {
+              data: {
+                email: this.email,
+                password: this.password
+              }
+            });
+            await this.$router.push({
+              path: this.prevRoute.fullPath
+            });
+          }catch(e){
+            console.log(e);
+          }
+        }
+      }catch(e){
+        this.disableBtn = false;
+        console.log('error', e);
+      }
     }
   },
 
@@ -108,5 +175,14 @@ export default {
 </script>
 
 <style scoped>
-
+@media(max-width: 760px){
+  .regiform{
+    width: 100vw;
+  }
+}
+@media(min-width: 760px){
+  .regiform{
+    width: 500px;
+  }
+}
 </style>

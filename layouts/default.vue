@@ -1,9 +1,18 @@
 <template>
   <v-app>
-      <v-app-bar :clipped-left="clipped" fixed app flat elevation="1" color="white">
+<!--      hello world-->
+    <div class="v2-chip">
+      <v-btn rounded class="primary-bg-dark " style="text-transform: none !important;">
+        <v-btn rounded class="primary-bg" x-small >new</v-btn> &nbsp;&nbsp; ZapQuizy v2.0 is releasing soon &nbsp;&nbsp;&nbsp;&nbsp; &gt;
+      </v-btn>
+    </div>
+      <v-app-bar  :clipped-left="clipped" app fixed flat extended elevation="1" color="white" class="pt-12">
           <v-container class="pa-0 fill-height">
-            <NuxtLink class="nav-link-item nav-title-link" to="/">
-              <v-toolbar-title v-text="title" class="nav-title" />
+            <NuxtLink class="nav-link-item nav-title-link primary-gradient-text" to="/">
+<!--              <v-toolbar-title v-text="title" class="nav-title text-h4" />-->
+              <div style="display: flex;align-items: center;">
+                <img src="/zap.svg" alt="zap" style="height: 35px;"> &nbsp;&nbsp; <span class="text-h4 font-weight-bold">ZapQuizy</span>
+              </div>
             </NuxtLink>
             <v-spacer />
             <DesktopNavLinks :links="links"></DesktopNavLinks>
@@ -13,7 +22,6 @@
           </v-container>
       </v-app-bar>
     <v-main>
-<!--        {{ $auth.user }}-->
         <Nuxt />
     </v-main>
 
@@ -69,7 +77,7 @@ export default {
       fixed: false,
       rightDrawer: false,
       right: false,
-      title: 'ZapQuizy',
+      title: '⚡ ZapQuizy',
       links: [
         {name: 'Model Test', to: '/model-test/'},
         {name: 'Quiz', to: '/quiz/'},
@@ -86,7 +94,17 @@ export default {
 
 
 <style lang="scss">
-
+.v2-chip{
+  position: fixed;
+  z-index: 6;
+  margin-left: auto;
+  margin-right: auto;
+  top: 5px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  text-transform: none !important;
+}
 .nav-link{
   display: flex;
   padding: 0;

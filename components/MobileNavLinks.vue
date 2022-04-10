@@ -1,7 +1,8 @@
 <template>
   <div>
-    <NuxtLink class="navlink" to="/">
-      <h1 class="mt-2 text-h3 text-center">Zapquizy</h1>
+    <br>
+    <NuxtLink class="primary-gradient-text text-h4 font-weight-bold ml-3" to="/">
+      ZapQuizy
     </NuxtLink>
     <v-divider class="my-4"></v-divider>
     <v-list>
