@@ -16,7 +16,7 @@ export default {
     ],
     script: [
       {
-        src: 'https://www.wiris.net/demo/plugins/app/WIRISplugins.js?viewer=image',
+        src: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML',
       },
     ],
   },

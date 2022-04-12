@@ -1,19 +1,13 @@
 <template>
   <v-container>
-    <h1 class="my-5 text-h4 text-center">Add New Model Test</h1>
+    <h1 class="my-5 text-h4 text-center">Add New Question Bank</h1>
     <v-card elevation="1">
       <v-card-text>
-        <v-form ref="newModelTestForm" v-model="newModelTestForm" :valid="isNewModelTestFormValid">
+        <v-form ref="newQuestionBankForm" v-model="newQuestionBankForm" :valid="isNewQuestionBankFormValid">
           <v-text-field
-            v-model="newModelTestName"
+            v-model="newQuestionBankName"
             label="Name"
             :rules="[v => !!v || 'Name is required']"
-            required></v-text-field>
-          <v-text-field
-            v-model="newModelTestDuration"
-            label="Duration(minutes)"
-            type="number"
-            :rules="[v => !!v || 'Duration is required']"
             required></v-text-field>
           <v-select
             v-model="selectedLevel"
@@ -34,31 +28,31 @@
             required >
           </v-select>
           <div class="text-center">
-            <v-btn color="primary" large @click="addModelTest">
-              Add Model Test
+            <v-btn color="primary" large @click="addQuestionBank">
+              Add Question Bank
             </v-btn>
           </div>
         </v-form>
       </v-card-text>
     </v-card>
-    <h1 class="mt-10 mb-5 text-h4 text-center">All Model Tests</h1>
+    <h1 class="mt-10 mb-5 text-h4 text-center">All Question Banks</h1>
 
     <v-data-table
-      :headers="modelTestHeaders"
-      :items="modelTests"
+      :headers="QuestionBankHeaders"
+      :items="questionBanks"
       :items-per-page="10"
       class="elevation-1"
     >
       <template v-slot:item.enter="{ item }">
 
-          <v-btn small color="success">
-            <NuxtLink class="btnlink" :to="`/admin/model-test/${item.id}`">Enter</NuxtLink>
-          </v-btn>
+        <v-btn small color="success">
+          <NuxtLink class="btnlink" :to="`/admin/question-bank/${item.id}`">Enter</NuxtLink>
+        </v-btn>
 
       </template>
       <template v-slot:item.delete="{ item }">
 
-        <v-btn @click="deleteModelTest(item.id)" small color="error">
+        <v-btn @click="deleteQuestionBank(item.id)" small color="error">
           Delete
         </v-btn>
 
@@ -85,16 +79,15 @@ export default {
   transition: 'fade',
   data(){
     return {
-      newModelTestName: '',
-      newModelTestDuration: '',
-      newModelTestForm: '',
-      isNewModelTestFormValid: true,
+      newQuestionBankName: '',
+      newQuestionBankForm: '',
+      isNewQuestionBankFormValid: true,
       selectedLevel: null,
 
       selectedSubject: null,
 
-      modelTestHeaders: [
-        { text: 'Model Test Name', value: 'name'},
+      QuestionBankHeaders: [
+        { text: 'Question Bank Name', value: 'name'},
         { text: 'Subject', value: 'subject.name'},
         { text: 'Level', value: 'level.name'},
         { text: 'Action', value: 'enter'},
@@ -107,34 +100,32 @@ export default {
   async asyncData({ $http }){
     let subjects = await $http.$get('/api/subjects');
     let levels = await $http.$get('/api/levels');
-    let modelTests = await $http.$get('/api/admin/model-test/get');
-    return { subjects, levels, modelTests };
+    let questionBanks = await $http.$get('/api/admin/question-bank/get');
+    return { subjects, levels, questionBanks };
   },
   methods: {
-    async addModelTest(){
-      if(this.$refs.newModelTestForm.validate()){
-        let newModelTest = {
-          name: this.newModelTestName,
+    async addQuestionBank(){
+      if(this.$refs.newQuestionBankForm.validate()){
+        let newQuestionBank = {
+          name: this.newQuestionBankName,
           level_id: this.selectedLevel,
           subject_id: this.selectedSubject,
-          duration: this.newModelTestDuration,
         }
         try{
-          this.modelTests = await this.$axios.$post('/api/admin/model-test/add', newModelTest);
+          this.questionBanks = await this.$axios.$post('/api/admin/question-bank/add', newQuestionBank);
           this.snackbar = true;
-          this.snackbarText = 'Model Test added';
-          // console.log(hala);
+          this.snackbarText = 'Question Bank Added successfully';
         }catch(err){
           console.log(err);
         }
       }
     },
-    async deleteModelTest(id){
-      if(confirm('Do you really want to delete the model test?')){
+    async deleteQuestionBank(id){
+      if(confirm('Do you really want to delete the Question Bank?')){
         try{
-          this.modelTests = await this.$axios.$post(`/api/admin/model-test/delete/${id}`);
+          this.questionBanks = await this.$axios.$post(`/api/admin/question-bank/delete/${id}`);
           this.snackbar = true;
-          this.snackbarText = 'Model Test deleted successfully';
+          this.snackbarText = 'Question Bank Deleted successfully';
         }catch(err){
           console.log(err);
         }

@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app ref="equationEnabled">
     <v-app-bar :clipped-left="clipped" fixed app flat elevation="1" color="grey lighten-3">
       <v-container class="pa-0 fill-height">
         <NuxtLink class="nav-link-item nav-title-link" to="/admin">
@@ -78,7 +78,18 @@ export default {
   },
   methods: {
 
-  }
+  },
+  mounted(){
+    // if(process.browser){
+    //   if(window.MathJax){
+    //     window.MathJax.Hub.Queue([
+    //       "Typeset",
+    //       window.MathJax.Hub,
+    //       this.$refs.equationEnabled,
+    //     ]);
+    //   }
+    // }
+  },
 }
 </script>
 

@@ -1,11 +1,12 @@
 <template>
 
   <v-card style="">
-    <v-toolbar dark color="primary">
-      <v-btn icon dark @click="closeWithoutSave()">
-        <v-icon>mdi-close</v-icon>
-      </v-btn>
-      <v-toolbar-title>Add New Question</v-toolbar-title>
+    <v-toolbar elevation="0" dark :color="editMode===true? 'teal darken-4':'primary'">
+<!--      <v-btn icon dark @click="closeWithoutSave()">-->
+<!--        <v-icon>mdi-close</v-icon>-->
+<!--      </v-btn>-->
+      <v-toolbar-title v-if="editMode">Edit Question</v-toolbar-title>
+      <v-toolbar-title v-else>Add New Question</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items>
         <v-btn dark text @click="closeWithSave()">
@@ -22,64 +23,63 @@
           :class="{'error':questionType==='mcq', 'teal darken-3':questionType!=='mcq' }"
           @click="changeQuestionType('mcq')"
         >MCQ</v-btn>
-        <v-btn
-          color="white--text" x-small
-          class="my-1 mx-1"
-          @click="changeQuestionType('true_false')"
-          :class="{'error':questionType==='true_false', 'teal darken-3':questionType!=='true_false' }"
-        >True/False</v-btn>
-        <v-btn
-          color="white--text" x-small
-          class="my-1 mx-1"
-          @click="changeQuestionType('short_ans')"
-          :class="{'error':questionType==='short_ans', 'teal darken-3':questionType!=='short_ans' }"
-        >Short Answer</v-btn>
+<!--        <v-btn-->
+<!--          color="white&#45;&#45;text" x-small-->
+<!--          class="my-1 mx-1"-->
+<!--          @click="changeQuestionType('true_false')"-->
+<!--          :class="{'error':questionType==='true_false', 'teal darken-3':questionType!=='true_false' }"-->
+<!--        >True/False</v-btn>-->
+<!--        <v-btn-->
+<!--          color="white&#45;&#45;text" x-small-->
+<!--          class="my-1 mx-1"-->
+<!--          @click="changeQuestionType('short_ans')"-->
+<!--          :class="{'error':questionType==='short_ans', 'teal darken-3':questionType!=='short_ans' }"-->
+<!--        >Short Answer</v-btn>-->
       </div>
       <div class="mcq" v-if="questionType === 'mcq'">
         <client-only placeholder="loading component...">
-        <h1 class="text-h6 my-1 ">Question: </h1>
-        <ckeditor-nuxt
-          v-model="mcqQuestion.name"
-          :config="editorConfig"
-        />
-        <div class="spacer mt-5"></div>
-        <div class="testing" v-html="mcqQuestion.name"></div>
-        <v-alert v-if="err" dense type="error"
-        >{{ errMsg }}</v-alert>
-        <div v-for="(option, index) in mcqQuestion.options" :key="index" class="option">
-          <h1 class="text-h6 my-1">option {{index+1}}: </h1>
-          <v-row>
-            <v-col cols="12" md="10">
-              <ckeditor-nuxt
-                v-model="mcqQuestion.options[index].name"
-                :config="editorConfig"
-              />
-            </v-col>
-            <v-col class="mcq-option-btns" cols="12" md="2">
-              <v-btn class="mcq-option-btn" small
-                :class="{
+          <h1 class="text-h6 my-1 ">Question: </h1>
+          <ckeditor-nuxt
+            v-model="mcqQuestion.name"
+            :config="editorConfig"
+          />
+          <div class="spacer mt-5"></div>
+<!--          <div class="testing" v-html="mcqQuestion.name"></div>-->
+          <v-alert v-if="err" dense type="error"
+          >{{ errMsg }}</v-alert>
+          <div v-for="(option, index) in mcqQuestion.options" :key="index" class="option">
+            <h1 class="text-h6 my-1">option {{index+1}}: </h1>
+            <v-row>
+              <v-col cols="12" md="10">
+                <ckeditor-nuxt
+                  v-model="mcqQuestion.options[index].name"
+                  :config="editorConfig"
+                />
+              </v-col>
+              <v-col class="mcq-option-btns" cols="12" md="2">
+                <v-btn class="mcq-option-btn" small
+                       :class="{
                   'primary':!mcqQuestion.options[index].correct,
                   'success':mcqQuestion.options[index].correct
                 }"
-                @click="markMcqCorrect(index)"
-              >
+                       @click="markMcqCorrect(index)"
+                >
                   <span v-if="!mcqQuestion.options[index].correct">Mark as Correct</span>
                   <span v-else>Correct</span>
-              </v-btn>
-              <v-btn class="mcq-option-btn" small color="error">Remove Option</v-btn>
-            </v-col>
-          </v-row>
-        </div>
+                </v-btn>
+                <v-btn @click="mcqRemoveOption(index)" class="mcq-option-btn" small color="error">Remove Option</v-btn>
+              </v-col>
+            </v-row>
+          </div>
         </client-only>
       </div>
     </v-card-text>
-    <client-only placeholder="loading component...">
-      <v-card-actions class="flex flex-row justify-center">
-        <p v-if="questionType==='mcq'" class="mcq-actions">
-          <v-btn outlined color="black text--white" @click="addMcqOption()">Add new Option</v-btn>
-        </p>
-      </v-card-actions>
-    </client-only>
+    <v-card-actions class="flex flex-row justify-center">
+      <p v-if="questionType==='mcq'" class="mcq-actions">
+        <v-btn outlined color="black text--white" @click="addMcqOption()">Add new Option</v-btn>
+      </p>
+    </v-card-actions>
+
   </v-card>
 
 
@@ -91,14 +91,16 @@ export default {
   components: {
     'ckeditor-nuxt': () => { if (process.client) { return import('@blowstack/ckeditor-nuxt') } },
   },
+  props: [
+
+  ],
   data(){
     return {
       contentHolder: '',
       editorConfig: {
-        removePlugins: ['Title'],
+        removePlugins: ['Title']
       },
       questionType: 'mcq',
-
       mcqQuestion: {
         type: 'mcq',
         name: '',
@@ -108,7 +110,12 @@ export default {
       shortAnsQuestion: {},
       err: false,
       errMsg: true,
+      editMode: false,
+      editableQuestion: null,
     }
+  },
+  created(){
+
   },
   methods: {
     mcqQuestionValid(){
@@ -120,7 +127,7 @@ export default {
       let ase = false,cnt=false;
       this.mcqQuestion.options.forEach(option => {
         if(option.name != null || option.name !== "")ase=true;
-        if(option.correct === true)cnt=true;
+        if(option.correct)cnt=true;
       });
       if(!ase){
         this.err = true;
@@ -135,11 +142,15 @@ export default {
     closeWithSave(){
       this.err = false;
       if(this.mcqQuestionValid()){
-        this.$emit('close-with-save', this.mcqQuestion);
+        if(this.editMode){
+          this.$emit('save-edited-question', this.mcqQuestion);
+        }else{
+          this.$emit('close-with-save', this.mcqQuestion);
+        }
       }
     },
-    closeWithoutSave(){
-      this.$emit('close-without-save');
+    mcqRemoveOption(index){
+      this.mcqQuestion.options.splice(index, 1);
     },
     changeQuestionType(str){
       this.questionType = str;
@@ -154,12 +165,18 @@ export default {
       this.mcqQuestion.options[index].correct = !this.mcqQuestion.options[index].correct;
     },
     clearQuestions(){
+      this.editMode = false;
       this.mcqQuestion = {
         type: 'mcq',
         name: '',
         options: [],
       };
-    }
+    },
+    setEditMode(ques){
+      this.editMode = true;
+      this.mcqQuestion = ques;
+      console.log(ques);
+    },
   },
 }
 </script>

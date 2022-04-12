@@ -43,6 +43,8 @@ export default {
 .nav-link-item{
   color: black;
   text-decoration: none;
+  text-transform: none !important;
+  //font-weight: semibold;
   &:hover{
     color: blue;
   }

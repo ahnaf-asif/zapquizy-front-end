@@ -1,56 +1,27 @@
 <template>
   <v-container>
-    <h1 class="text-h4 my-5 text-center ">{{ modelTest.name }}</h1>
+    <NuxtLink class="nuxtbtn" :to="`/admin/question-bank/${question_bank_id}`">
+      <v-btn small class="primary-bg-dark ">back to the Question Bank</v-btn>
+    </NuxtLink>
+    <h1 class="text-h4 my-5 text-center ">{{ chapter.name }}</h1>
     <v-card elevation="1">
       <v-card-text>
-        <v-form ref="newModelTestForm" v-model="modelTestForm" :valid="isModelTestFormValid">
+        <v-form ref="newchapterForm" v-model="chapterForm" :valid="isChapterFormValid">
           <v-text-field
-            v-model="modelTest.name"
+            v-model="chapter.name"
             label="Name"
             :rules="[v => !!v || 'Name is required']"
-            required></v-text-field>
-          <v-text-field
-            v-model="modelTest.duration"
-            label="Duration(minutes)"
-            type="number"
-            :rules="[v => !!v || 'Duration is required']"
-            required></v-text-field>
-          <v-select
-            v-model="modelTest.level_id"
-            :items="levels"
-            item-value="id"
-            item-text="name"
-            :rules="[v => !!v || 'Level is required']"
-            label="Level"
-            required >
-          </v-select>
-          <v-select
-            v-model="modelTest.subject_id"
-            :items="subjects"
-            item-value="id"
-            item-text="name"
-            :rules="[v => !!v || 'Subject is required']"
-            label="Subject"
-            required >
-          </v-select>
+            required>
+          </v-text-field>
           <div class="text-center">
-            <v-btn color="primary" outlined @click="updateModelTest">
-              Update Model Test
+            <v-btn color="primary" outlined @click="updatechapter">
+              Update Chapter
             </v-btn>
           </div>
         </v-form>
       </v-card-text>
     </v-card>
     <div class="my-5 mt-10"></div>
-    <!--    <v-dialog persistent v-model="newQuestionDialog" fullscreen hide-overlay transition="dialog-bottom-transition">-->
-    <!--      <template class="text-center" v-slot:activator="{ on, attrs }">-->
-    <!--        <v-btn color="primary" depressed outlined v-bind="attrs" v-on="on">-->
-    <!--          + Add New Question-->
-    <!--        </v-btn>-->
-    <!--      </template>-->
-    <!--      -->
-    <!--    </v-dialog>-->
-<!--    <v-btn color="primary" v-if="!newQuestionDialog" @click="addQuestionClicked()" depressed outlined >+ Add New Question</v-btn>-->
     <div ref="editor" class="question-panel">
       <QuestionPanel
 
@@ -91,9 +62,10 @@
 </template>
 
 <script>
-import QuestionPanel from "../../../components/QuestionPanel";
+import QuestionPanel from "../../../../../components/QuestionPanel";
+
 export default {
-  name: "ModelTestInsideVue",
+  name: "QuestionBankChapterQuestions",
   auth: true,
   middleware: 'admin',
   layout: 'admin',
@@ -104,8 +76,8 @@ export default {
   data(){
     return {
       newQuestionDialog: false,
-      modelTestForm: '',
-      isModelTestFormValid: true,
+      chapterForm: '',
+      isChapterFormValid: true,
       componentKey: 0,
       editableQuestion: null,
       editMode: false,
@@ -128,18 +100,21 @@ export default {
   async asyncData({ $http, params }){
     let subjects = await $http.$get('/api/subjects');
     let levels = await $http.$get('/api/levels');
-    let modelTest = await $http.$get(`/api/admin/model-test/get/${params.id}`);
-    let questions = await $http.$get(`/api/admin/model-test/${params.id}/questions/get`);
-    return { subjects, levels, modelTest, questions };
+    let chapter = await $http.$get(`/api/admin/question-bank/${params.id}/chapters/${params.chapter_id}/get`);
+    // let newChapter = await $http.$get(`/api/admin/question-bank/${params.id}/chapters/${params.chapter_id}/get`);
+    let questions = await $http.$get(`/api/admin/question-bank/${params.id}/chapters/${params.chapter_id}/questions/get`);
+    // let id = params.id;let chapter_id = params.chapter_id;
+    let question_bank_id = params.id;
+    return { chapter, questions, subjects, levels, question_bank_id };
   },
 
   methods: {
-    async updateModelTest(){
+    async updatechapter(){
       try{
-        let res = await this.$axios.post(`/api/admin/model-test/update/${this.modelTest.id}`, this.modelTest);
-        this.modelTest = res.data;
+        let res = await this.$axios.post(`/api/admin/question-bank/${this.question_bank_id}/chapters/${this.chapter.id}/edit`, this.chapter);
+        this.chapter = res.data;
         this.snackbar = true;
-        this.snackbarText = 'Model Test updated successfully';
+        this.snackbarText = 'Chapter updated successfully';
       }catch(er){
         console.log(er);
       }
@@ -150,7 +125,7 @@ export default {
     async newQuestionWithSave(question){
       // console.log(question);
       try{
-        let res = await this.$axios.post(`/api/admin/model-test/${this.modelTest.id}/questions/add`, question);
+        let res = await this.$axios.post(`/api/admin/question-bank/${this.question_bank_id}/chapters/${this.chapter.id}/questions/add`, question);
         this.$refs.questionPanel.clearQuestions();
         location.reload();
       }catch(er){
@@ -159,7 +134,7 @@ export default {
     },
     async saveEditedQuestion(ques){
       try{
-        let res = await this.$axios.post(`/api/admin/model-test/${this.modelTest.id}/questions/${ques.id}/edit`, ques);
+        let res = await this.$axios.post(`/api/admin/question-bank/${this.question_bank_id}/chapters/${this.chapter.id}/questions/${ques.id}/edit`, ques);
         // this.$refs.questionPanel.clearQuestions();
         location.reload();
       }catch(err){
@@ -174,7 +149,7 @@ export default {
       if(confirm('do you really want to delete this question?')){
         try{
           let ques = this.questions[index];
-          let res = await this.$axios.post(`/api/admin/model-test/${this.modelTest.id}/questions/${ques.id}/delete`);
+          let res = await this.$axios.post(`/api/admin/question-bank/${this.question_bank_id}/chapters/${this.chapter.id}/questions/${ques.id}/delete`);
           // this.$router.app.refresh();
           location.reload();
         }catch(err){
@@ -195,6 +170,10 @@ export default {
 }
 .bordered-list{
   border: 1px;
+}
+.nuxtbtn{
+  text-decoration: none;
+  color: white;
 }
 /*.question-panel{*/
 /*  position: absolute;*/

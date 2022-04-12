@@ -1,18 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400&display=swap');
+
+*{
+  font-family: 'Inter', sans-serif !important;
+}
+
+
 .primary-gradient-bg{
   background: rgb(99,102,241);
   background: linear-gradient(90deg, rgba(99,102,241,1) 18%, rgba(126,34,206,1) 82%);
   color: white !important;
 }
 .primary-bg{
-  background-color: #6366f1 !important;
+  background-color: #33429e !important;
   color: white !important;
 }
 .primary-bg-dark{
-  background-color: #3c3ea6 !important;
+  background-color: #051367 !important;
   color: white !important;
+}
+.primary-text-dark{
+  color: #051367 !important;
 }
 .primary-gradient-text{
   background: -webkit-linear-gradient(rgba(99,102,241,1), rgba(126,34,206,1));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+.wrs_toolbar{
+  display: block !important;
+}
+.wrs_handWrapper input{
+  min-width: 50px;
+  min-height: 50px;
 }

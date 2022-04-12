@@ -2,7 +2,7 @@
   <div>
     <br>
     <NuxtLink class="primary-gradient-text text-h4 font-weight-bold ml-3" to="/">
-      ZapQuizy
+      <img src="/logo.png" alt="zap" style="height: 45px;">
     </NuxtLink>
     <v-divider class="my-4"></v-divider>
     <v-list>
