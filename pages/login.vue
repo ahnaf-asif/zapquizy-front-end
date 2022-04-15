@@ -115,7 +115,7 @@ export default {
     },
     mounted(){
         this.$refs.scrollTop = 0;
-        this.$axios.$get('/sanctum/csrf-cookie')
+        console.log(this.$axios.$get('/sanctum/csrf-cookie'));
     },
     beforeRouteEnter(to, from, next){
       next( vm=>{
