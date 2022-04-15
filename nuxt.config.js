@@ -53,7 +53,7 @@ export default {
     strategies: {
       laravelSanctum: {
         provider: 'laravel/sanctum',
-        url: process.env.API_BASEURL || 'http://localhost:8000',
+        url: process.env.API_BASEURL || 'https://afternoon-bayou-60914.herokuapp.com',
         endpoints: {
           login: {
             url: '/login'
@@ -67,11 +67,11 @@ export default {
   },
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: process.env.API_BASEURL || 'http://localhost:8000',
+    baseURL: process.env.API_BASEURL || 'https://afternoon-bayou-60914.herokuapp.com',
     credentials: true,
   },
   http: {
-    baseURL: process.env.API_BASEURL || 'http://localhost:8000',
+    baseURL: process.env.API_BASEURL || 'https://afternoon-bayou-60914.herokuapp.com',
 
   },
 
