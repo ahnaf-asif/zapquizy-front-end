@@ -48,9 +48,9 @@
     <v-container class="my-10">
 <!--      <h1 class="text-center text-h4 font-weight-bold white-text mb-10">Features</h1>-->
       <v-row >
-        <v-col v-for="feature in features" :key="features" cols="6" md="4">
+        <v-col v-for="feature in features" :key="features" cols="12" md="4" style="row-gap: 40px;">
           <div class="img text-center mb-3">
-            <img :src="feature.svg" alt="" style="width: 100px;">
+            <img :src="feature.svg" alt="" style="width: 80px;">
           </div>
           <h3 class="text-center">{{ feature.title }}</h3>
           <p class="text-center">{{feature.description}}</p>
