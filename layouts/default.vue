@@ -1,16 +1,21 @@
 <template>
-  <v-app ref="equationEnabled">
-<!--      hello world-->
-    <div class="v2-chip primary-bg-dark" style="padding-bottom: 4px;">
-      <v-btn rounded class="primary-bg-dark " small style="text-transform: none !important;">
-        <v-btn rounded class="primary-bg" x-small >new</v-btn> &nbsp;&nbsp; ZapQuizy v2.0 is releasing soon
-      </v-btn>
-    </div>
-      <v-app-bar :clipped-left="clipped" extended app fixed flat elevation="0" color="white" class="pt-10">
-          <v-container class="pa-0  fill-height" style="background-color: white !important;">
+  <v-app>
+<!--    <div class="top-nav blue-grey darken-4 py-2">-->
+<!--      <div class="inside d-flex align-center justify-space-between mx-2" >-->
+<!--        <div class="contacts">-->
+<!--          <v-icon style="font-size: 15px;color:whitesmoke">mdi-phone</v-icon>+8801755884404 &nbsp;&nbsp;-->
+<!--          <v-icon style="font-size: 15px;color:whitesmoke">mdi-email-outline</v-icon> ahnafshahriar92@gmail.com-->
+<!--        </div>-->
+<!--        <div class="login">-->
+<!--          <v-icon style="font-size: 15px;color:whitesmoke;">mdi-arrow-right-bold-box-outline</v-icon> Login-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+      <v-app-bar :clipped-left="clipped" app fixed flat elevation="0" color="white" >
+          <v-container class="pa-0  fill-height">
             <NuxtLink class="nav-link-item nav-title-link " to="/">
-<!--              <v-toolbar-title v-text="title" class="nav-title text-h4" />-->
-                <img src="/logo.png" alt="zap" style="height: 45px;">
+              <v-toolbar-title v-text="'ZapQuizy'" class="font-weight-bold nav-title text-h4 " />
+<!--                <img src="/logo.png" alt="zap" style="height: 45px;">-->
             </NuxtLink>
             <v-spacer />
             <DesktopNavLinks :links="links"></DesktopNavLinks>
@@ -102,14 +107,14 @@ export default {
 
 
 <style lang="scss">
-.v2-chip{
+.top-nav{
   position: fixed;
+  font-size: 12px;
+  color: whitesmoke;
   z-index: 6;
-  margin-left: auto;
-  margin-right: auto;
+  top: 0;
   left: 0;
   right: 0;
-  text-align: center;
   text-transform: none !important;
 }
 .nav-link{
@@ -120,7 +125,7 @@ export default {
     color: black;
     text-decoration: none;
     &:hover{
-      color: blue;
+      color: #7368ed;
     }
   }
 }
@@ -130,15 +135,20 @@ export default {
   color: black !important;
   text-decoration: none;
   &:hover{
-    color: blue !important;
+    color: #7368ed !important;
   }
 
+}
+.nav-title{
+  &:hover{
+    color: #7368ed !important;
+  }
 }
 .nuxt-link{
     color: black;
     text-decoration: none;
     &:hover{
-      color: blue !important;
+      color: #7368ed !important;
     }
 }
 .fade-enter-active,

@@ -2,7 +2,7 @@
   <v-container style="display:flex;align-items:center;justify-content: center;" fill-height>
       <div class="loginform">
         <v-dialog persistent v-model="phoneVerificationDialog" max-width="450">
-          <v-card>
+          <v-card >
             <v-card-title>Verify Phone number via OTP</v-card-title>
             <v-divider></v-divider>
             <v-card-text class="mt-3">
@@ -29,9 +29,11 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
-        <v-card shaped>
-          <v-card-title>Sign In ZapQuizy</v-card-title>
-          <v-divider></v-divider>
+        <v-card elevation="1" >
+          <v-card-title class="text-center my-5">
+            <h1 class="text-center">ZapQuizy</h1>
+          </v-card-title>
+<!--          <v-divider></v-divider>-->
           <v-card-text>
             <v-alert v-if="unauthorized" class="my-3" type="error">{{errMsg}}</v-alert>
             <p v-if="phoneVerificationError" class="red--text darken-1 mb-3">Your phone number is not verified yet. Please
@@ -39,9 +41,12 @@
             </p>
             <v-form ref="form" v-model="valid" lazy-validation>
               <v-text-field
+                class=""
+                append-icon="mdi-email-outline"
                 v-model="email"
                 label="Email"
                 :rules="emailRules"
+                outlined
                 required
               >
               </v-text-field>
@@ -53,16 +58,16 @@
                 name="input-10-1"
                 label="Password"
                 hint="At least 8 characters"
-                counter
+                outlined
                 @click:append="show1 = !show1"
               ></v-text-field>
 
               <div class="text-center mt-5">
                 <v-btn @click="login" :disabled="disableBtn" color="primary" depressed elevation="2" large>Sign In</v-btn>
               </div>
-              <div class="mt-10">
-                Not Registered Yet? <NuxtLink to="/register/">Register Here</NuxtLink>
-              </div>
+<!--              <div class="mt-10">-->
+<!--                Not Registered Yet? <NuxtLink to="/register/">Register Here</NuxtLink>-->
+<!--              </div>-->
             </v-form>
           </v-card-text>
         </v-card>
@@ -75,6 +80,7 @@
 export default {
     auth: 'guest',
     middleware: 'guest',
+    layout: 'login',
     transition: 'fade',
     components: {
     },

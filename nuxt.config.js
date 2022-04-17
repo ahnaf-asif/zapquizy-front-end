@@ -53,7 +53,7 @@ export default {
     strategies: {
       laravelSanctum: {
         provider: 'laravel/sanctum',
-        url: process.env.API_BASEURL || 'https://zapquizy-backend.herokuapp.com',
+        url: process.env.API_BASEURL || 'http://localhost:8000',
         endpoints: {
           login: {
             url: '/login'
@@ -67,11 +67,11 @@ export default {
   },
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: process.env.API_BASEURL || 'https://zapquizy-backend.herokuapp.com',
+    baseURL: process.env.API_BASEURL || 'http://localhost:8000',
     credentials: true,
   },
   http: {
-    baseURL: process.env.API_BASEURL || 'https://zapquizy-backend.herokuapp.com',
+    baseURL: process.env.API_BASEURL || 'http://localhost:8000',
 
   },
 
@@ -91,13 +91,22 @@ export default {
     customVariables: ['~/assets/variables.scss'],
     theme: {
       dark: false,
+      light: true,
       themes: {
         dark: {
-          primary: '#6366f1',
-          something: '#fff',
-          accent: colors.grey.darken3,
-          secondary: colors.amber.darken3,
-          info: colors.teal.lighten1,
+          primary: '#726DA8',
+          accent: '#FFC759',
+          secondary: '#7D8CC4',
+          info: '#A0D2DB',
+          warning: colors.amber.base,
+          error: colors.deepOrange.accent4,
+          success: colors.green.accent3
+        },
+        light: {
+          primary: '#7368ed',
+          accent: '#FFC759',
+          secondary: '#7D8CC4',
+          info: '#36d198',
           warning: colors.amber.base,
           error: colors.deepOrange.accent4,
           success: colors.green.accent3

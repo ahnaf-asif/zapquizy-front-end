@@ -4,7 +4,7 @@
       <NuxtLink v-for="link in links" :key="link.name" class="ml-7 nav-link-item text-uppercase" :to="link.to">{{ link.name }}</NuxtLink>
 
       <NuxtLink v-if="!$auth.user" class="ml-7 nav-link-item primary-text-dark" to="/login/">
-        <v-btn outlined color="indigo darken-4" class="primary-text-dark"> Login &nbsp; <v-icon>mdi-arrow-right-bold-box-outline</v-icon></v-btn>
+        <v-btn outlined color="primary"> Login &nbsp; <v-icon>mdi-arrow-right-bold-box-outline</v-icon></v-btn>
       </NuxtLink>
 
 <!--      <NuxtLink v-if="!$auth.user" class="ml-7 nav-link-item text-uppercase" to="/register/">Register</NuxtLink>-->
