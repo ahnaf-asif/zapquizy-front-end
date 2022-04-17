@@ -5,9 +5,9 @@
         <v-col cols="12" md="6" style="align-items: center; display:flex;justify-content:center;">
           <div class="mt-md-8 home-view" style="display:flex;justify-content: center; " >
             <div class="inside">
-              <h1 class="text-md-h2 text-h4 py-2 mb-10 black--text font-weight-bold">Ace Exams with <span class="primary--text">ZapQuizy!</span></h1>
-              <p class="black--text mb-10" style="font-size: 18px;">Prepare for your exams and find and create quizzes for your students. Be a part of our wonderful community!</p>
-              <div class="buttons ">
+              <h1 class="mt-10 text-md-h2 text-h4 py-2 mb-10 black--text font-weight-bold text-center text-md-left">Ace Exams with <span class="primary--text">ZapQuizy!</span></h1>
+              <p class="black--text mb-10 text-center text-md-left" style="font-size: 18px;">Prepare for your exams and find and create quizzes for your students. Be a part of our wonderful community!</p>
+              <div v-if="!($vuetify.breakpoint.xsOnly || $vuetify.breakpoint.smOnly)" class="buttons ">
                 <NuxtLink class="nuxt-link" to="/model-test/" >
                   <v-btn  depressed  large color="primary" class="mt-3">
                     Visit Model Tests
@@ -19,6 +19,20 @@
                     Make a Quiz
                   </v-btn>
                 </NuxtLink>
+              </div>
+              <div v-else style="display: flex;justify-content: center;">
+                <div class="d-flex justify-center align-center flex-column">
+                  <NuxtLink class="nuxt-link" to="/model-test/" >
+                    <v-btn  depressed  large color="primary" class="mt-3" style="width: 200px;">
+                      Visit Model Tests
+                    </v-btn>
+                  </NuxtLink>
+                  <NuxtLink class="nuxt-link" to="/quiz/">
+                    <v-btn  depressed outlined color="primary" large class="mt-3"  style="width: 200px;">
+                      Make a Quiz
+                    </v-btn>
+                  </NuxtLink>
+                </div>
               </div>
             </div>
           </div>
@@ -45,19 +59,32 @@
         </v-col>
       </v-row>
     </v-container>
-    <v-container class="my-10">
+    <v-container class="mt-10">
 <!--      <h1 class="text-center text-h4 font-weight-bold white-text mb-10">Features</h1>-->
-      <v-row >
+      <v-row v-if="!($vuetify.breakpoint.xsOnly || $vuetify.breakpoint.smOnly)">
         <v-col v-for="feature in features" :key="features" cols="12" md="4" style="row-gap: 40px;">
           <div class="img text-center mb-3">
-            <img :src="feature.svg" alt="" style="width: 80px;">
+            <img :src="feature.svg" alt="" style="width: 100px;">
           </div>
           <h3 class="text-center">{{ feature.title }}</h3>
           <p class="text-center">{{feature.description}}</p>
         </v-col>
       </v-row>
+      <v-row v-else>
+        <v-col v-for="feature in features" :key="features" cols="12" md="4" style="row-gap: 40px;">
+          <div class="inside d-flex align-center " style="column-gap: 10px;">
+            <div class="left img">
+              <img :src="feature.svg" alt="" style="width: 80px;">
+            </div>
+            <div class="right">
+              <h3 class="">{{ feature.title }}</h3>
+              <p class="">{{feature.description}}</p>
+            </div>
+          </div>
+        </v-col>
+      </v-row>
     </v-container>
-    <v-container fluid class="chepta-model-tests" >
+    <v-container fluid class="chepta-model-tests mt-md-10 mt-5">
       <div class="inside">
         <v-container>
           <h1 class="text-center text-h4 font-weight-bold white-text">All Model Test Packages</h1>
@@ -77,8 +104,8 @@
                           style="color: black !important;"
                           v-text="pkg.title"
                         ></v-card-title>
-                        <v-card-subtitle v-html="pkg.subtitle" style="color:#8a8a8a;" class="text--black px-0">
-
+                        <v-card-subtitle style="color:#8a8a8a;" class="text--black px-0">
+                          <v-icon style='color: #8a8a8a'>mdi-account-check-outline</v-icon> {{pkg.subtitle}}
                         </v-card-subtitle>
                       </div>
                     </v-col>
@@ -105,39 +132,39 @@ export default {
       features: [
         {
           title: 'This is a title',
-          description: 'This is the short description I was talking about lorem ipsem dolor emit kere mama ke khobor This is the short description I was talking about lorem ipsem dolor emit kere mama ke khobor',
+          description: 'This is the short description I was talking about ',
           svg: '/svgs/live-color.svg'
         },
         {
           title: 'This is a title',
-          description: 'This is the short description I was talking about lorem ipsem dolor emit kere mama ke khobor This is the short description I was talking about lorem ipsem dolor emit kere mama ke khobor',
+          description: 'This is the short description I was talking about ',
           svg: '/svgs/practice-color.svg'
         },
         {
           title: 'This is a title',
-          description: 'This is the short description I was talking about lorem ipsem dolor emit kere mama ke khobor This is the short description I was talking about lorem ipsem dolor emit kere mama ke khobor',
+          description: 'This is the short description I was talking about ',
           svg: '/svgs/leaderboard-color.svg'
         },
       ],
       packages: [
         {
           title: 'SSC Preparation',
-          subtitle: "<v-icon style='color: #8a8a8a'>mdi-account-check-outline</v-icon> 69,000 students enrolled",
+          subtitle: "69,000 students enrolled",
           img: '/ssc-preparation.png'
         },
         {
           title: 'HSC Preparation',
-          subtitle: "<v-icon style='color: #8a8a8a'>mdi-account-check-outline</v-icon> 69,000 students enrolled",
+          subtitle: "69,000 students enrolled",
           img: '/hsc-preparation.png'
         },
         {
           title: 'NDC Admission',
-          subtitle: "<v-icon style='color: #8a8a8a'>mdi-account-check-outline</v-icon> 69,000 students enrolled",
+          subtitle: "69,000 students enrolled",
           img: '/ndc-admission-preparation.png'
         },
         {
           title: 'University Admission',
-          subtitle: "<v-icon style='color: #8a8a8a'>mdi-account-check-outline</v-icon> 69,000 students enrolled",
+          subtitle: "69,000 students enrolled",
           img: '/university-admission-preparation.png'
         },
       ],
@@ -188,7 +215,7 @@ export default {
 }
 @media (max-width: 759px){
   .flat-card-home{
-    height: 80px;cursor:pointer;
+    height: 100px;cursor:pointer;
   }
   .card-mobile-title{
     font-size: 17px;
