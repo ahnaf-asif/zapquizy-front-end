@@ -13,7 +13,7 @@
 <!--    </div>-->
       <v-app-bar v-if="!($vuetify.breakpoint.xsOnly || $vuetify.breakpoint.smOnly)" :clipped-left="clipped" app fixed flat elevation="0" color="white" >
           <v-container class="pa-0  fill-height">
-            <v-spacer   />
+
             <NuxtLink class="nav-link-item nav-title-link " to="/">
               <v-toolbar-title v-text="'ZapQuizy'" class="font-weight-bold nav-title text-h4 " />
             </NuxtLink>
@@ -25,7 +25,7 @@
         <Nuxt />
     </v-main>
 <!--    {{ $route.path }}-->
-    <div class="decoy" style="height: 60px;width: 100%;background: white;">
+    <div v-if="$vuetify.breakpoint.xsOnly || $vuetify.breakpoint.smOnly" class="decoy" style="height: 60px;width: 100%;background: white;">
 
         <v-card elevation="1" rounded="0" class="bottom-nav">
           <v-btn  icon @click.stop="rightDrawer = !rightDrawer" >
