@@ -62,7 +62,7 @@
     <v-container class="mt-10">
 <!--      <h1 class="text-center text-h4 font-weight-bold white-text mb-10">Features</h1>-->
       <v-row v-if="!($vuetify.breakpoint.xsOnly || $vuetify.breakpoint.smOnly)">
-        <v-col v-for="feature in features" :key="features" cols="12" md="4" style="row-gap: 40px;">
+        <v-col v-for="(feature,i) in features" :key="i" cols="12" md="4" style="row-gap: 40px;">
           <div class="img text-center mb-3">
             <img :src="feature.svg" alt="" style="width: 100px;">
           </div>
@@ -71,7 +71,7 @@
         </v-col>
       </v-row>
       <v-row v-else>
-        <v-col v-for="feature in features" :key="features" cols="12" md="4" style="row-gap: 40px;">
+        <v-col v-for="(feature,i) in features" :key="i" cols="12" md="4" style="row-gap: 40px;">
           <div class="inside d-flex align-center " style="column-gap: 10px;">
             <div class="left img">
               <img :src="feature.svg" alt="" style="width: 80px;">
@@ -90,7 +90,7 @@
           <h1 class="text-center text-h4 font-weight-bold white-text">All Model Test Packages</h1>
           <p class="text-center white-text">Prepare for your examinations</p>
           <v-row class="mt-5">
-            <v-col v-for="pkg in packages" :key="pkg" cols="12" md="6" class="mobile-col">
+            <v-col v-for="(pkg,i) in packages" :key="i" cols="12" md="6" class="mobile-col">
               <v-hover v-slot="{ hover }">
                 <v-card :elevation="hover ? 16 : 0" class="flat-card-home mx-2" color="#f0f0f0" dark>
                   <v-row class="">

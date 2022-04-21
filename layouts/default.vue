@@ -11,22 +11,32 @@
 <!--        </div>-->
 <!--      </div>-->
 <!--    </div>-->
-      <v-app-bar :clipped-left="clipped" app fixed flat elevation="0" color="white" >
+      <v-app-bar v-if="!($vuetify.breakpoint.xsOnly || $vuetify.breakpoint.smOnly)" :clipped-left="clipped" app fixed flat elevation="0" color="white" >
           <v-container class="pa-0  fill-height">
+            <v-spacer   />
             <NuxtLink class="nav-link-item nav-title-link " to="/">
               <v-toolbar-title v-text="'ZapQuizy'" class="font-weight-bold nav-title text-h4 " />
-<!--                <img src="/logo.png" alt="zap" style="height: 45px;">-->
             </NuxtLink>
             <v-spacer />
             <DesktopNavLinks :links="links"></DesktopNavLinks>
-            <v-btn v-if="$vuetify.breakpoint.xsOnly || $vuetify.breakpoint.smOnly " icon @click.stop="rightDrawer = !rightDrawer" >
-            <v-icon>mdi-menu</v-icon>
-            </v-btn>
           </v-container>
       </v-app-bar>
     <v-main>
         <Nuxt />
     </v-main>
+<!--    {{ $route.path }}-->
+    <div class="decoy" style="height: 60px;width: 100%;background: white;">
+
+        <v-card elevation="1" rounded="0" class="bottom-nav">
+          <v-btn  icon @click.stop="rightDrawer = !rightDrawer" >
+            <v-icon>mdi-menu</v-icon>
+          </v-btn>
+          <NuxtLink  to="/"><v-icon :color="$route.path==='/'?'primary': 'rgba(0, 0, 0, 0.54)'">mdi-home-variant-outline</v-icon></NuxtLink>
+          <NuxtLink to="/live-exam/"><v-icon :color="$route.path==='/live-exam/'?'primary': 'rgba(0, 0, 0, 0.54)'">mdi-access-point-plus</v-icon></NuxtLink>
+          <NuxtLink to="/model-test/"><v-icon :color="$route.path==='/model-test/'?'primary': 'rgba(0, 0, 0, 0.54)'">mdi-book-open-outline</v-icon></NuxtLink>
+          <NuxtLink to="/profile/"><v-icon :color="$route.path==='/profile/'?'primary': 'rgba(0, 0, 0, 0.54)'">mdi-account-outline</v-icon></NuxtLink>
+        </v-card>
+    </div>
 
     <v-navigation-drawer v-if="$vuetify.breakpoint.xsOnly || $vuetify.breakpoint.smOnly" v-model="rightDrawer" :right="right" temporary fixed>
       <MobileNavLinks :links="links"></MobileNavLinks>
@@ -107,6 +117,25 @@ export default {
 
 
 <style lang="scss">
+.bottom-nav{
+  width: 100%;
+  height: 60px;
+  position: fixed;
+  margin: 0 !important;
+  padding: 0 !important;
+  bottom: -3px !important;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  a{
+    text-decoration: none !important;
+  }
+  .v-icon{
+    font-size: 30px !important;
+    //text-decoration: underline;
+  }
+}
 .top-nav{
   position: fixed;
   font-size: 12px;

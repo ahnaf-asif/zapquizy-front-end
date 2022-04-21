@@ -12,7 +12,7 @@ export default {
       { name: 'format-detection', content: 'telephone=no' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon-3.ico' }
     ],
     script: [
       {
@@ -74,7 +74,7 @@ export default {
     baseURL: process.env.API_BASEURL || 'http://localhost:8000',
 
   },
-
+  apiBaseUrl: 'http://localhost:8000',
   router: {
     middleware: []
   },
@@ -108,8 +108,8 @@ export default {
           secondary: '#7D8CC4',
           info: '#36d198',
           warning: colors.amber.base,
-          error: colors.deepOrange.accent4,
-          success: colors.green.accent3
+          error: colors.red.darken2,
+          success: colors.green.darken1
         }
       }
     }

@@ -73,6 +73,7 @@ export default {
       links: [
         {name: 'Model Tests', to: '/admin/model-test/'},
         {name: 'Question Banks', to: '/admin/question-bank/'},
+        {name: 'Model Test Packages', to: '/admin/model-test-package/'}
       ],
     }
   },
