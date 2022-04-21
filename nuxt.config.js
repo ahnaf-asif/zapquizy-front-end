@@ -82,6 +82,10 @@ export default {
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
     manifest: {
+      name: 'Zapquizy',
+      short_name: 'Zapquizy',
+      start_url: '/',
+      description: 'Prepare for your exams and find and create quizzes for your students !',
       lang: 'en'
     }
   },
