@@ -34,7 +34,8 @@
           <NuxtLink to="/live-exam/"><v-icon :color="$route.path==='/live-exam/'?'primary': 'rgba(0, 0, 0, 0.54)'">mdi-access-point-plus</v-icon></NuxtLink>
           <NuxtLink  to="/"><v-icon :color="$route.path==='/'?'primary': 'rgba(0, 0, 0, 0.54)'">mdi-home-variant-outline</v-icon></NuxtLink>
           <NuxtLink to="/model-test/"><v-icon :color="$route.path==='/model-test/'?'primary': 'rgba(0, 0, 0, 0.54)'">mdi-book-open-outline</v-icon></NuxtLink>
-          <NuxtLink to="/profile/"><v-icon :color="$route.path==='/profile/'?'primary': 'rgba(0, 0, 0, 0.54)'">mdi-account-outline</v-icon></NuxtLink>
+          <NuxtLink v-if="$auth.user"  to="/profile/"><v-icon :color="$route.path==='/profile/'?'primary': 'rgba(0, 0, 0, 0.54)'">mdi-account-outline</v-icon></NuxtLink>
+          <NuxtLink v-else to="/login/"><v-icon :color="$route.path==='/login/'?'primary': 'rgba(0, 0, 0, 0.54)'">mdi-login-variant</v-icon></NuxtLink>
         </v-card>
     </div>
 
@@ -94,7 +95,6 @@ export default {
       links: [
         {name: 'Model Test', to: '/model-test/'},
         {name: 'Quiz', to: '/quiz/'},
-        {name: 'Features', to: '/features/'}
       ],
     }
   },

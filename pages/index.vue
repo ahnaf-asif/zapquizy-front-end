@@ -76,7 +76,7 @@
               <img :src="feature.svg" alt="" style="width: 50px;">
             </div>
             <div class="right">
-              <p style="line-height: 15px; font-size: 13px; width: 10ch;" class="text-center">{{ feature.title }}</p>
+              <p style="line-height: 15px; font-size: 13px; width: 10ch; font-weight: bold;" class="text-center">{{ feature.title }}</p>
             </div>
         </div>
       </div>
@@ -89,7 +89,7 @@
           <v-row class="mt-5">
             <v-col v-for="(pkg,i) in packages" :key="i" cols="12" md="6" class="mobile-col">
               <v-hover v-slot="{ hover }">
-                <v-card :elevation="hover ? 16 : 0" class="flat-card-home mx-2" color="#f0f0f0" dark>
+                <v-card :elevation="hover ? 16 : 1" class="flat-card-home mx-2" color="#f0f0f0" dark>
                   <v-row class="">
                     <v-col cols="5" class="py-0">
                       <v-img class="flat-card-home" :src="pkg.img"></v-img>
@@ -140,7 +140,7 @@ export default {
         {
           title: 'Daily Leaderboard',
           description: 'This is the short description I was talking about ',
-          svg: '/svgs/leaderboard-color.svg'
+          svg: '/svgs/leaderboard-green.svg'
         },
       ],
       packages: [

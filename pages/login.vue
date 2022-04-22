@@ -29,9 +29,9 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
-        <v-card elevation="1" >
-          <v-card-title class="text-center my-5">
-            <h1 class="text-center">ZapQuizy</h1>
+        <v-card :elevation="$vuetify.breakpoint.mobile?0:1" >
+          <v-card-title class="my-5 d-flex justify-center">
+            <h1 class="">ZapQuizy</h1>
           </v-card-title>
 <!--          <v-divider></v-divider>-->
           <v-card-text>
@@ -39,24 +39,25 @@
             <p v-if="phoneVerificationError" class="red--text darken-1 mb-3">Your phone number is not verified yet. Please
               <span class="blue--text darken-1" @click="phoneVerification()" style="cursor: pointer;">Click here</span> to verify.
             </p>
-            <v-form ref="form" v-model="valid" lazy-validation>
+            <v-form ref="form">
               <v-text-field
                 class=""
                 append-icon="mdi-email-outline"
                 v-model="email"
+                type="email"
                 label="Email"
-                :rules="emailRules"
+                :error-messages="emailError"
                 outlined
                 required
               >
               </v-text-field>
               <v-text-field
                 v-model="password"
-                :rules="passwordRules"
                 :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
                 :type="show1 ? 'text' : 'password'"
                 name="input-10-1"
                 label="Password"
+                :error-messages="passwordError"
                 hint="At least 8 characters"
                 outlined
                 @click:append="show1 = !show1"
@@ -80,7 +81,7 @@
 export default {
     auth: 'guest',
     middleware: 'guest',
-    layout: 'login',
+    // layout: 'login',
     transition: 'fade',
     components: {
     },
@@ -105,6 +106,8 @@ export default {
           unauthorized: false,
           errMsg: null,
           disableBtn: false,
+          emailError: null,
+          passwordError : null,
 
           phoneVerificationDialog: false,
           phoneVerificationError: false,
@@ -129,6 +132,18 @@ export default {
       })
     },
     methods: {
+      validateData(){
+        let validXX = true;
+        if(!this.email){
+          this.emailError = 'Email is required';
+          validXX = false;
+        }
+        if(!this.password){
+          this.passwordError='Password is required';
+          validXX = false;
+        }
+        return validXX;
+      },
       secondToTime(sec){
         let minutes = Math.floor(sec/60);
         let secs = sec - minutes*60;
@@ -146,7 +161,9 @@ export default {
         return otp;
       },
       async login(){
-        if(this.$refs.form.validate()){
+        this.emailError = null;
+        this.passwordError = null;
+        if(this.validateData()){
           this.unauthorized = false;
           this.errMsg=null;
           this.disableBtn = true;
