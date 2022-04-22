@@ -84,7 +84,7 @@
     <v-container fluid class="chepta-model-tests mt-md-10 ">
       <div class="inside">
         <v-container>
-          <h1 class="text-center text-md-h4 text-h6 font-weight-bold white-text">All Model Test Packages</h1>
+          <h1 class="text-center text-md-h4 text-h6 font-weight-bold white-text">All Packages</h1>
           <p class="text-center white-text">Prepare for your examinations</p>
           <v-row class="mt-5">
             <v-col v-for="(pkg,i) in packages" :key="i" cols="12" md="6" class="mobile-col">
@@ -96,14 +96,14 @@
                     </v-col>
                     <v-col cols="7" class="py-0 d-flex align-center">
                       <div >
-                        <v-card-title
-                          class="text-md-h5 card-mobile-title text--black px-0"
+                        <h1
+                          class="text-h6 card-mobile-title text--black px-0"
                           style="color: black !important;"
                           v-text="pkg.title"
-                        ></v-card-title>
-                        <v-card-subtitle style="color:#8a8a8a;" class="text--black px-0">
-                          <v-icon style='color: #8a8a8a'>mdi-account-check-outline</v-icon> {{pkg.subtitle}}
-                        </v-card-subtitle>
+                        ></h1>
+                        <h5 style="color:#8a8a8a;" class="text--black px-0">
+                          {{pkg.subtitle}}
+                        </h5>
                       </div>
                     </v-col>
                   </v-row>
@@ -114,15 +114,21 @@
         </v-container>
       </div>
     </v-container>
+    <v-container>
+      <h1 class="mt-5 text-center text-md-h4 text-h6 font-weight-bold white-text">Popular Model Test Packages</h1>
+      <p class="text-center">Find and practice what you need</p>
+      <ModelTestList :test-list="popularModelTests" title=""></ModelTestList>
+    </v-container>
   </div>
 </template>
 
 <script>
-
+import ModelTestList from "../components/ModelTestList";
 export default {
   auth: false,
   transition: 'fade',
   components: {
+    ModelTestList
   },
   data(){
     return {
@@ -145,25 +151,31 @@ export default {
       ],
       packages: [
         {
-          title: 'SSC Preparation',
-          subtitle: "1236 enrolled",
+          title: 'Model Tests',
+          subtitle: "345 model tests",
           img: '/ssc-preparation.png'
         },
         {
-          title: 'HSC Preparation',
-          subtitle: "5056 enrolled",
+          title: 'Quizzes',
+          subtitle: "Prepare and participate in quizzes",
           img: '/hsc-preparation.png'
         },
         {
-          title: 'NDC Admission',
-          subtitle: "250 enrolled",
-          img: '/ndc-admission-preparation.png'
+          title: 'Courses',
+          subtitle: "Take courses and prepare for exams",
+          img: '/hsc-preparation.png'
         },
         {
-          title: 'University Admission',
-          subtitle: "560 enrolled",
-          img: '/university-admission-preparation.png'
+          title: 'Something Else',
+          subtitle: "Take courses and prepare for exams",
+          img: '/hsc-preparation.png'
         },
+      ],
+      popularModelTests: [
+        {name: 'HSC Botany', img: '/images/hsc-botany.png'},
+        {name: 'DU IBA Mathematics', img: '/images/du-iba-mathematics.png'},
+        {name: 'SSC Chemistry', img: '/images/ssc-chemistry.png'},
+        {name: 'DU IBA Analogy', img: '/images/du-iba-analogy.png'},
       ],
     }
   },
