@@ -23,10 +23,10 @@ export default {
         {name: 'HSC Zoology', img: '/images/hsc-zoology.png'},
       ],
       ssc: [
-        {name: 'SSC Chemistry', img: '/images/SSC-chemistry.png'},
-        {name: 'SSC Physics', img: '/images/SSC-physics.png'},
-        {name: 'SSC Chemistry', img: '/images/SSC-chemistry.png'},
-        {name: 'SSC Physics', img: '/images/SSC-physics.png'},
+        {name: 'SSC Chemistry', img: '/images/ssc-chemistry.png'},
+        {name: 'SSC Physics', img: '/images/ssc-physics.png'},
+        {name: 'SSC Chemistry', img: '/images/ssc-chemistry.png'},
+        {name: 'SSC Physics', img: '/images/ssc-physics.png'},
       ],
       universityAdmission: [
         {name: 'DU IBA Mathematics', img: '/images/du-iba-mathematics.png'},
