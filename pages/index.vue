@@ -70,24 +70,21 @@
           <p class="text-center">{{feature.description}}</p>
         </v-col>
       </v-row>
-      <v-row v-else>
-        <v-col v-for="(feature,i) in features" :key="i" cols="12" md="4" style="row-gap: 40px;">
-          <div class="inside d-flex align-center " style="column-gap: 10px;">
-            <div class="left img">
-              <img :src="feature.svg" alt="" style="width: 80px;">
+      <div class="d-flex justify-space-around" v-else>
+        <div class="inside" v-for="(feature,i) in features" :key="i" >
+            <div class="left img text-center">
+              <img :src="feature.svg" alt="" style="width: 50px;">
             </div>
             <div class="right">
-              <h3 class="">{{ feature.title }}</h3>
-              <p class="">{{feature.description}}</p>
+              <p style="line-height: 15px; font-size: 13px; width: 10ch;" class="text-center">{{ feature.title }}</p>
             </div>
-          </div>
-        </v-col>
-      </v-row>
+        </div>
+      </div>
     </v-container>
-    <v-container fluid class="chepta-model-tests mt-md-10 mt-5">
+    <v-container fluid class="chepta-model-tests mt-md-10 ">
       <div class="inside">
         <v-container>
-          <h1 class="text-center text-h4 font-weight-bold white-text">All Model Test Packages</h1>
+          <h1 class="text-center text-md-h4 text-h6 font-weight-bold white-text">All Model Test Packages</h1>
           <p class="text-center white-text">Prepare for your examinations</p>
           <v-row class="mt-5">
             <v-col v-for="(pkg,i) in packages" :key="i" cols="12" md="6" class="mobile-col">
@@ -131,17 +128,17 @@ export default {
     return {
       features: [
         {
-          title: 'This is a title',
+          title: 'Join Live Exams',
           description: 'This is the short description I was talking about ',
           svg: '/svgs/live-color.svg'
         },
         {
-          title: 'This is a title',
+          title: 'Practice Anywhere',
           description: 'This is the short description I was talking about ',
           svg: '/svgs/practice-color.svg'
         },
         {
-          title: 'This is a title',
+          title: 'Daily Leaderboard',
           description: 'This is the short description I was talking about ',
           svg: '/svgs/leaderboard-color.svg'
         },
@@ -149,22 +146,22 @@ export default {
       packages: [
         {
           title: 'SSC Preparation',
-          subtitle: "69,000 students enrolled",
+          subtitle: "1236 enrolled",
           img: '/ssc-preparation.png'
         },
         {
           title: 'HSC Preparation',
-          subtitle: "69,000 students enrolled",
+          subtitle: "5056 enrolled",
           img: '/hsc-preparation.png'
         },
         {
           title: 'NDC Admission',
-          subtitle: "69,000 students enrolled",
+          subtitle: "250 enrolled",
           img: '/ndc-admission-preparation.png'
         },
         {
           title: 'University Admission',
-          subtitle: "69,000 students enrolled",
+          subtitle: "560 enrolled",
           img: '/university-admission-preparation.png'
         },
       ],
@@ -215,7 +212,7 @@ export default {
 }
 @media (max-width: 759px){
   .flat-card-home{
-    height: 100px;cursor:pointer;
+    height: 80px;cursor:pointer;
   }
   .card-mobile-title{
     font-size: 17px;
