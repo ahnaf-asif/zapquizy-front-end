@@ -138,7 +138,7 @@ export default {
           svg: '/svgs/practice-color.svg'
         },
         {
-          title: 'Daily Leaderboard',
+          title: 'Climb the Leaderboard',
           description: 'This is the short description I was talking about ',
           svg: '/svgs/leaderboard-lightgreen.svg'
         },
