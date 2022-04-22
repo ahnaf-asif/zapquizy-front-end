@@ -5,7 +5,7 @@
     <div v-if="$vuetify.breakpoint.mobile" class="model-test-scroller">
       <div v-for="test in testList" :key="test"  class="card">
         <v-hover to="/" v-slot="{ hover }">
-          <v-card :elevation="hover?16:3" class="mx-auto my-3 rounded-lg ml-2" width="200">
+          <v-card :elevation="hover?5:3" class="mx-auto my-3 rounded-lg ml-2" width="200">
             <v-img height="100" :src="test.img"></v-img>
             <div class="text-center py-2 font-weight-bold">
               {{ test.name }}

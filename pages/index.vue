@@ -140,7 +140,7 @@ export default {
         {
           title: 'Daily Leaderboard',
           description: 'This is the short description I was talking about ',
-          svg: '/svgs/leaderboard-green.svg'
+          svg: '/svgs/leaderboard-lightgreen.svg'
         },
       ],
       packages: [
