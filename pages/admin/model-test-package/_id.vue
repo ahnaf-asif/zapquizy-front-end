@@ -91,6 +91,9 @@ export default {
     let modelTests = await $http.$get(`/api/admin/model-test-package/${params.id}/model-tests`);
     return { subjects, levels, modelTestPackage, modelTests };
   },
+  created(){
+    console.log(this.modelTests);
+  },
   data(){
     return {
       newName: null,
@@ -147,6 +150,9 @@ export default {
       }
     },
     async deleteModelTestPackage(id){
+
+    },
+    async deleteModelTest(id){
 
     }
   }

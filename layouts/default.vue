@@ -11,7 +11,7 @@
 <!--        </div>-->
 <!--      </div>-->
 <!--    </div>-->
-      <v-app-bar v-if="!($vuetify.breakpoint.xsOnly || $vuetify.breakpoint.smOnly)" :clipped-left="clipped" app fixed flat elevation="0" color="white" >
+      <v-app-bar v-if="!$vuetify.breakpoint.mobile" :clipped-left="clipped" app fixed flat elevation="0">
           <v-container class="pa-0  fill-height">
 
             <NuxtLink class="nav-link-item nav-title-link " to="/">
@@ -21,27 +21,61 @@
             <DesktopNavLinks :links="links"></DesktopNavLinks>
           </v-container>
       </v-app-bar>
+
+      <v-system-bar color="card" fixed v-if="$vuetify.breakpoint.mobile" height="40">
+        <v-icon style="font-size: 25px;" @click.stop="rightDrawer = !rightDrawer">mdi-menu</v-icon>
+        <v-spacer></v-spacer>
+        <v-switch
+          v-model="$vuetify.theme.dark"
+        >
+          <template v-slot:label>
+            Theme
+          </template>
+        </v-switch>
+      </v-system-bar>
+
     <v-main>
         <Nuxt />
     </v-main>
 <!--    {{ $route.path }}-->
-    <div v-if="$vuetify.breakpoint.xsOnly || $vuetify.breakpoint.smOnly" class="decoy" style="height: 60px;width: 100%;background: white;">
+    <div v-if="$vuetify.breakpoint.mobile" class="decoy" style="height: 60px;width: 100%;">
 
-        <v-card elevation="1" rounded="0" class="bottom-nav">
-          <v-btn  icon @click.stop="rightDrawer = !rightDrawer" >
-            <v-icon>mdi-menu</v-icon>
-          </v-btn>
-          <NuxtLink to="/live-exam/"><v-icon :color="$route.path==='/live-exam/'?'primary': 'rgba(0, 0, 0, 0.54)'">mdi-access-point-plus</v-icon></NuxtLink>
-          <NuxtLink  to="/"><v-icon :color="$route.path==='/'?'primary': 'rgba(0, 0, 0, 0.54)'">mdi-home-variant-outline</v-icon></NuxtLink>
-          <NuxtLink to="/model-test/"><v-icon :color="$route.path==='/model-test/'?'primary': 'rgba(0, 0, 0, 0.54)'">mdi-book-open-outline</v-icon></NuxtLink>
-          <NuxtLink v-if="$auth.user"  to="/profile/"><v-icon :color="$route.path==='/profile/'?'primary': 'rgba(0, 0, 0, 0.54)'">mdi-account-outline</v-icon></NuxtLink>
-          <NuxtLink v-else to="/login/"><v-icon :color="$route.path==='/login/'?'primary': 'rgba(0, 0, 0, 0.54)'">mdi-login-variant</v-icon></NuxtLink>
-        </v-card>
     </div>
 
-    <v-navigation-drawer v-if="$vuetify.breakpoint.xsOnly || $vuetify.breakpoint.smOnly" v-model="rightDrawer" :right="right" temporary fixed>
-      <MobileNavLinks :links="links"></MobileNavLinks>
+    <v-navigation-drawer v-if="$vuetify.breakpoint.mobile" v-model="rightDrawer" :right="right" temporary fixed>
+      <MobileNavLinks v-on:close-sidebar="closeSidebar()" :links="links"></MobileNavLinks>
     </v-navigation-drawer>
+
+    <v-dialog v-model="loginDialog" max-width="450" >
+      <LoginComponent></LoginComponent>
+    </v-dialog>
+    <v-dialog v-model="registerDialog" max-width="450" >
+      <RegisterComponent></RegisterComponent>
+    </v-dialog>
+
+
+    <v-bottom-navigation v-if="$vuetify.breakpoint.mobile" shift fixed>
+<!--      <v-btn @click.stop="rightDrawer = !rightDrawer" >-->
+<!--        <v-icon>mdi-menu</v-icon>-->
+<!--      </v-btn>-->
+
+      <v-btn active-class="primary--text" to="/">
+        <span>home</span>
+        <v-icon>mdi-home</v-icon>
+      </v-btn>
+      <v-btn active-class="primary--text" to="/model-test/" >
+        <span>Model Test</span>
+        <v-icon>mdi-book-open-outline</v-icon>
+      </v-btn>
+      <v-btn active-class="primary--text" to="/quiz/" >
+        <span>Live Exams</span>
+        <v-icon>mdi-ballot-outline</v-icon>
+      </v-btn>
+      <v-btn active-class="primary--text" to="/profile/" >
+        <span>Profile</span>
+        <v-icon>mdi-account</v-icon>
+      </v-btn>
+    </v-bottom-navigation>
 
 <!--    <v-footer :absolute="!fixed" app color="blue-grey darken-4 white&#45;&#45;text" class="py-10">-->
 <!--      <v-row>-->
@@ -79,10 +113,12 @@
 <script>
 import DesktopNavLinks from '/components/DesktopNavLinks';
 import MobileNavLinks from '/components/MobileNavLinks';
+import LoginComponent from "../components/LoginComponent";
+import RegisterComponent from "../components/RegisterComponent";
 
 export default {
   auth: false,
-  components: {MobileNavLinks, DesktopNavLinks},
+  components: {MobileNavLinks, DesktopNavLinks, LoginComponent, RegisterComponent},
   transition: 'fade',
   data () {
     return {
@@ -90,16 +126,45 @@ export default {
       drawer: false,
       fixed: false,
       rightDrawer: false,
+      loginDialog: false,
+      registerDialog : false,
       right: false,
       title: '⚡ ZapQuizy',
       links: [
-        {name: 'Model Test', to: '/model-test/'},
-        {name: 'Quiz', to: '/quiz/'},
+        {name: 'Model Test', to: '/model-test/', icon: 'mdi-clipboard-text-multiple-outline'},
+        {name: 'Quiz', to: '/quiz/', icon: 'mdi-clock-edit-outline'},
       ],
+      bottomNav: 'home',
     }
   },
   methods: {
-
+    async closeSidebar(){
+      await this.$router.push({
+        path: '/'
+      });
+      this.rightDrawer = false;
+      // console.log('drawer closed');
+    },
+    openLoginForm(){
+      this.rightDrawer = false;
+      this.registerDialog = false;
+      this.loginDialog = true;
+    },
+    closeLoginForm(){
+      this.rightDrawer = false;
+      this.registerDialog = false;
+      this.loginDialog = false;
+    },
+    openRegisterForm(){
+      this.rightDrawer = false;
+      this.registerDialog = true;
+      this.loginDialog = false;
+    },
+    closeRegisterForm(){
+      this.rightDrawer = false;
+      this.registerDialog = false;
+      this.loginDialog = false;
+    }
   },
   mounted(){
     // if(process.browser){
@@ -112,11 +177,37 @@ export default {
     //   }
     // }
   },
+  created(){
+    this.$nuxt.$on('open-login-form', ()=>{
+      this.openLoginForm();
+    });
+    this.$nuxt.$on('close-login-form', ()=>{
+      this.closeLoginForm();
+    });
+    this.$nuxt.$on('open-register-form', ()=>{
+      this.openRegisterForm();
+    });
+    this.$nuxt.$on('close-register-form', ()=>{
+      this.closeRegisterForm();
+    });
+
+  },
 }
 </script>
 
 
 <style lang="scss">
+.top-image{
+  height: 40px;
+  width: 40px;
+  //border: 2px solid #6A1B9A;
+  //border-radius: 50%;
+  //background-color: lightgray;
+  //background-image: url("/images/user.png");
+  //background-size:     cover;
+  //background-repeat:   no-repeat;
+  //background-position: center center;
+}
 .bottom-nav{
   width: 100%;
   height: 60px;
@@ -151,7 +242,7 @@ export default {
   padding: 0;
   margin: 0;
   a{
-    color: black;
+    //color: black;
     text-decoration: none;
     &:hover{
       color: #7368ed;
@@ -161,7 +252,7 @@ export default {
 .nav-title-link{
 
   // text-decoration: none;
-  color: black !important;
+  //color: black !important;
   text-decoration: none;
   &:hover{
     color: #7368ed !important;
@@ -174,7 +265,7 @@ export default {
   }
 }
 .nuxt-link{
-    color: black;
+    //color: black;
     text-decoration: none;
     &:hover{
       color: #7368ed !important;

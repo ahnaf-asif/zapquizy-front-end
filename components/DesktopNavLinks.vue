@@ -9,7 +9,7 @@
 
 <!--      <NuxtLink v-if="!$auth.user" class="ml-7 nav-link-item text-uppercase" to="/register/">Register</NuxtLink>-->
 
-      <NavProfileSection :margin-left="true"></NavProfileSection>
+      <NavProfileSection v-if="!$vuetify.breakpoint.mobile" :margin-left="true"></NavProfileSection>
 
   </div>
 

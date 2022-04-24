@@ -8,7 +8,17 @@
             v-model="newQuestionBankName"
             label="Name"
             :rules="[v => !!v || 'Name is required']"
-            required></v-text-field>
+            required>
+          </v-text-field>
+          <v-select
+            v-model="selectedModelTestPackage"
+            :items="modelTestPackages"
+            item-text="name"
+            item-value="id"
+            :rules="[v => !!v || 'Model Test Package is required']"
+            label="Model Test Package"
+            required >
+          </v-select>
           <v-select
             v-model="selectedLevel"
             :items="levels"
@@ -83,7 +93,7 @@ export default {
       newQuestionBankForm: '',
       isNewQuestionBankFormValid: true,
       selectedLevel: null,
-
+      selectedModelTestPackage: null,
       selectedSubject: null,
 
       QuestionBankHeaders: [
@@ -101,7 +111,8 @@ export default {
     let subjects = await $http.$get('/api/subjects');
     let levels = await $http.$get('/api/levels');
     let questionBanks = await $http.$get('/api/admin/question-bank/get');
-    return { subjects, levels, questionBanks };
+    let modelTestPackages = await $http.$get('/api/admin/model-test-package/get');
+    return { subjects, levels, questionBanks, modelTestPackages };
   },
   methods: {
     async addQuestionBank(){
@@ -110,11 +121,14 @@ export default {
           name: this.newQuestionBankName,
           level_id: this.selectedLevel,
           subject_id: this.selectedSubject,
+          model_test_package_id: this.selectedModelTestPackage,
         }
+        console.log(this.selectedModelTestPackage);
         try{
           this.questionBanks = await this.$axios.$post('/api/admin/question-bank/add', newQuestionBank);
           this.snackbar = true;
           this.snackbarText = 'Question Bank Added successfully';
+
         }catch(err){
           console.log(err);
         }

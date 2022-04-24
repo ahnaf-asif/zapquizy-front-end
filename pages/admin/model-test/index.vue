@@ -16,6 +16,15 @@
             :rules="[v => !!v || 'Duration is required']"
             required></v-text-field>
           <v-select
+            v-model="selectedModelTestPackage"
+            :items="modelTestPackages"
+            item-text="name"
+            item-value="id"
+            :rules="[v => !!v || 'Model Test Package is required']"
+            label="Model Test Package"
+            required >
+          </v-select>
+          <v-select
             v-model="selectedLevel"
             :items="levels"
             item-text="name"
@@ -90,6 +99,7 @@ export default {
       newModelTestForm: '',
       isNewModelTestFormValid: true,
       selectedLevel: null,
+      selectedModelTestPackage: null,
 
       selectedSubject: null,
 
@@ -108,7 +118,8 @@ export default {
     let subjects = await $http.$get('/api/subjects');
     let levels = await $http.$get('/api/levels');
     let modelTests = await $http.$get('/api/admin/model-test/get');
-    return { subjects, levels, modelTests };
+    let modelTestPackages = await $http.$get('/api/admin/model-test-package/get');
+    return { subjects, levels, modelTests, modelTestPackages };
   },
   methods: {
     async addModelTest(){
@@ -118,12 +129,12 @@ export default {
           level_id: this.selectedLevel,
           subject_id: this.selectedSubject,
           duration: this.newModelTestDuration,
+          model_test_package_id: this.selectedModelTestPackage,
         }
         try{
           this.modelTests = await this.$axios.$post('/api/admin/model-test/add', newModelTest);
           this.snackbar = true;
           this.snackbarText = 'Model Test added';
-          // console.log(hala);
         }catch(err){
           console.log(err);
         }

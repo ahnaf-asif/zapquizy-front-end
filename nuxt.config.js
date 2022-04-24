@@ -12,7 +12,8 @@ export default {
       { name: 'format-detection', content: 'telephone=no' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon-3.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon-3.ico' },
+      { rel: 'stylesheet', type: 'text/css', href: 'https://use.fontawesome.com/releases/v5.15.4/css/all.css'}
     ],
     script: [
       {
@@ -94,14 +95,14 @@ export default {
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
     theme: {
-      dark: false,
       light: true,
       themes: {
         dark: {
-          primary: '#726DA8',
+          primary: '#7368ed',
           accent: '#FFC759',
           secondary: '#7D8CC4',
           info: '#A0D2DB',
+          card: '#2E2E2E',
           warning: colors.amber.base,
           error: colors.deepOrange.accent4,
           success: colors.green.accent3
@@ -111,6 +112,7 @@ export default {
           accent: '#FFC759',
           secondary: '#7D8CC4',
           info: '#36d198',
+          card: '#fff',
           warning: colors.amber.base,
           error: colors.red.darken2,
           success: colors.green.darken1

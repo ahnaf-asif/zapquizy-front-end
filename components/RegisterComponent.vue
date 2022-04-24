@@ -1,5 +1,5 @@
 <template>
-  <v-container fill-height style="display: flex;justify-content: center;align-items: center;">
+  <div >
     <v-dialog persistent v-model="phoneVerificationDialog">
       <v-card >
         <v-card-title>Verify Phone number</v-card-title>
@@ -28,52 +28,54 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-      <div class="regiform">
-        <v-card max-width="450" :elevation="$vuetify.breakpoint.mobile?0:3" >
-          <h1 class="text-center mb-5 mb-md-1 text-h4 font-weight-bold">Register ZapQuizy</h1>
+    <div>
+      <v-card elevation="0" color="card" class="py-5">
+        <h1 class="text-center text-h4">Register</h1>
 
-          <v-card-text>
-            <v-form ref="form" v-model="valid" lazy-validation>
-              <v-text-field
-                outlined
-                v-model="name"
-                label="Name"
-                :rules="nameRules"
-                :error-messages="errorMessages.name"
-                required
-              >
-              </v-text-field>
+        <v-card-text>
+          <v-form ref="form" v-model="valid" lazy-validation>
+            <v-text-field
+              outlined
+              v-model="name"
+              label="Name"
+              append-icon="mdi-calendar-text-outline"
+              :rules="nameRules"
+              :error-messages="errorMessages.name"
+              required
+            >
+            </v-text-field>
 
-              <v-text-field
-                outlined
-                v-model="phone"
-                label="Phone"
-                :rules="phoneRules"
-                :error-messages="errorMessages.phone"
-                required
-              >
-              </v-text-field>
-              <v-text-field
-                outlined
-                v-model="password"
-                :rules="passwordRules"
-                :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-                :type="show1 ? 'text' : 'password'"
-                name="input-10-1"
-                label="Password"
-                hint="At least 8 characters"
-                :error-messages="errorMessages.password"
-                @click:append="show1 = !show1"
-              ></v-text-field>
-
-              <div class="text-center mt-5">
-                <v-btn :disabled="disableBtn" @click="submitForm" ref="registerBtn" color="primary" depressed elevation="2" large>Register</v-btn>
-              </div>
-            </v-form>
-          </v-card-text>
-        </v-card>
-      </div>
-  </v-container>
+            <v-text-field
+              outlined
+              v-model="phone"
+              label="Phone"
+              append-icon="mdi-phone-outline"
+              :rules="phoneRules"
+              :error-messages="errorMessages.phone"
+              required
+            >
+            </v-text-field>
+            <v-text-field
+              outlined
+              v-model="password"
+              :rules="passwordRules"
+              :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+              :type="showPassword ? 'text' : 'password'"
+              name="input-10-1"
+              label="Password"
+              hint="At least 8 characters"
+              :error-messages="errorMessages.password"
+              @click:append="showPassword = !showPassword"
+            ></v-text-field>
+            <p>Already Registered? <span class="primary--text" @click="$nuxt.$emit('open-login-form')">Sign In Here</span></p>
+            <div class="text-center mt-5">
+              <v-btn :disabled="disableBtn" @click="submitForm" ref="registerBtn" color="primary" depressed elevation="2" large>Register</v-btn>
+            </div>
+          </v-form>
+        </v-card-text>
+      </v-card>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -109,7 +111,7 @@ export default {
         v => (v && v.length >= 8) || 'Confirm Password Must be at least 8 characters long',
       ],
 
-      show1: false,
+      showPassword: false,
       show2: false,
       errorMessages: {
         name: null,
@@ -122,6 +124,7 @@ export default {
       prevRoute: {
         fullPath: '/',
       },
+
       phoneVerificationDialog: false,
       phoneVerificationError: false,
       otpCheckingLoading: false,
@@ -145,6 +148,19 @@ export default {
     this.$axios.$get('/sanctum/csrf-cookie')
   },
   methods:{
+    resetData(){
+      this.name = null;
+      this.password = null;
+      this.phone = null;
+      this.disableBtn = false;
+      this.errorMessages = {
+        name: null,
+          email: null,
+          password: null,
+          phone: null,
+          confirmPassword: null,
+      };
+    },
     secondToTime(sec){
       let minutes = Math.floor(sec/60);
       let secs = sec - minutes*60;
@@ -183,24 +199,11 @@ export default {
           }
         }
         else{
+
           await this.phoneVerification();
-          // // console.log(resp);
-          // try{
-          //   const resp2 = await this.$auth.loginWith('laravelSanctum', {
-          //     data: {
-          //       email: this.email,
-          //       password: this.password
-          //     }
-          //   });
-          //   await this.$router.push({
-          //     path: this.prevRoute.fullPath
-          //   });
-          // }catch(e){
-          //   console.log(e);
-          // }
+
         }
       }catch(e){
-        this.disableBtn = false;
         this.disableBtn = false;
         console.log('error', e);
       }
@@ -249,9 +252,8 @@ export default {
             const resp = await this.$auth.loginWith('laravelSanctum', {
               data: formData
             });
-            await this.$router.push({
-              path: this.prevRoute.fullPath
-            });
+            this.resetData();
+            this.$nuxt.$emit('close-register-form');
           } catch (e) {
             console.log(e);
           }
@@ -268,14 +270,5 @@ export default {
 </script>
 
 <style scoped>
-@media(max-width: 760px){
-  .regiform{
-    width: 100vw;
-  }
-}
-@media(min-width: 760px){
-  .regiform{
-    width: 500px;
-  }
-}
+
 </style>

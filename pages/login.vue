@@ -33,7 +33,6 @@
           <v-card-title class="my-5 d-flex justify-center">
             <h1 class="">ZapQuizy</h1>
           </v-card-title>
-<!--          <v-divider></v-divider>-->
           <v-card-text>
             <v-alert v-if="unauthorized" class="my-3" type="error">{{errMsg}}</v-alert>
             <p v-if="phoneVerificationError" class="red--text darken-1 mb-3">Your phone number is not verified yet. Please
@@ -42,11 +41,10 @@
             <v-form ref="form">
               <v-text-field
                 class=""
-                append-icon="mdi-email-outline"
-                v-model="email"
-                type="email"
-                label="Email"
-                :error-messages="emailError"
+                append-icon="mdi-phone-outline"
+                v-model="phone"
+                label="Phone"
+                :error-messages="phoneError"
                 outlined
                 required
               >
@@ -58,17 +56,13 @@
                 name="input-10-1"
                 label="Password"
                 :error-messages="passwordError"
-                hint="At least 8 characters"
                 outlined
                 @click:append="show1 = !show1"
               ></v-text-field>
-
+              <p>Not Registered Yet? <NuxtLink class="primary--text" to="/register/">Register Here</NuxtLink></p>
               <div class="text-center mt-5">
                 <v-btn @click="login" :disabled="disableBtn" color="primary" depressed elevation="2" large>Sign In</v-btn>
               </div>
-<!--              <div class="mt-10">-->
-<!--                Not Registered Yet? <NuxtLink to="/register/">Register Here</NuxtLink>-->
-<!--              </div>-->
             </v-form>
           </v-card-text>
         </v-card>
@@ -81,17 +75,15 @@
 export default {
     auth: 'guest',
     middleware: 'guest',
-    // layout: 'login',
     transition: 'fade',
     components: {
     },
     data(){
         return {
           valid: true,
-          email: '',
-          emailRules: [
-            v => !!v || 'E-mail is required',
-            v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+          phone: '',
+          phoneRules: [
+            v => !!v || 'Phone is required'
           ],
 
           password: '',
@@ -106,7 +98,7 @@ export default {
           unauthorized: false,
           errMsg: null,
           disableBtn: false,
-          emailError: null,
+          phoneError: null,
           passwordError : null,
 
           phoneVerificationDialog: false,
@@ -122,9 +114,12 @@ export default {
           requestNewOtpBtnText: 'Request new OTP code',
         }
     },
+    created(){
+        console.log(this.prevRoute);
+    },
     mounted(){
         this.$refs.scrollTop = 0;
-        console.log(this.$axios.$get('/sanctum/csrf-cookie'));
+        this.$axios.$get('/sanctum/csrf-cookie');
     },
     beforeRouteEnter(to, from, next){
       next( vm=>{
@@ -134,8 +129,8 @@ export default {
     methods: {
       validateData(){
         let validXX = true;
-        if(!this.email){
-          this.emailError = 'Email is required';
+        if(!this.phone){
+          this.phoneError = 'Phone is required';
           validXX = false;
         }
         if(!this.password){
@@ -161,7 +156,7 @@ export default {
         return otp;
       },
       async login(){
-        this.emailError = null;
+        this.phoneError = null;
         this.passwordError = null;
         if(this.validateData()){
           this.unauthorized = false;
@@ -169,7 +164,7 @@ export default {
           this.disableBtn = true;
           try{
             const formData = {
-              email: this.email,
+              phone: this.phone,
               password: this.password,
               verify: false,
             };
@@ -185,7 +180,7 @@ export default {
               }catch(err){
                 this.disableBtn = false;
                 this.unauthorized = true;
-                this.errMsg = "Incorrect email or password";
+                this.errMsg = "Incorrect phone or password";
               }
             }
             else{
@@ -234,7 +229,7 @@ export default {
             this.otpCorrect = true;
             try {
               const formData = {
-                email: this.email,
+                phone: this.phone,
                 password: this.password,
                 verify: true,
               };
