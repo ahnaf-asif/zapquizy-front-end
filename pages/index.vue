@@ -37,7 +37,7 @@
             </div>
           </div>
         </v-col>
-        <v-col cols="6" v-if="!($vuetify.breakpoint.xsOnly || $vuetify.breakpoint.smOnly)"  style="display:flex; justify-content: flex-end; align-items: center;">
+        <v-col cols="6" v-if="0 === 1"  style="display:flex; justify-content: flex-end; align-items: center;">
           <v-card elevation="16" width="450" ref="enableEquation" style="background-color: #3a394d;">
             <v-card-title style="font-size: 15px;">What is the biggest mammal in the world?</v-card-title>
             <v-divider></v-divider>
@@ -180,13 +180,7 @@ export default {
     this.$refs.scrollTop = 0;
   },
   created(){
-    if(process.browser){
-      window.MathJax.Hub.Queue([
-        "Typeset",
-        window.MathJax.Hub,
-        this.$refs.enableEquation,
-      ]);
-    }
+
   }
 };
 

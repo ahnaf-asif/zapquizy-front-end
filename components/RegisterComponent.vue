@@ -145,7 +145,6 @@ export default {
   },
   mounted(){
     this.$refs.scrollTop = 0;
-    this.$axios.$get('/sanctum/csrf-cookie')
   },
   methods:{
     resetData(){

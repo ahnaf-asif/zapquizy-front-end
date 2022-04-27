@@ -64,6 +64,12 @@ export default {
           },
         }
       },
+    },
+    redirect: {
+      login: '/login',
+      logout: '/',
+      callback: false,
+      home: false
     }
   },
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -100,9 +106,10 @@ export default {
         dark: {
           primary: '#7368ed',
           accent: '#FFC759',
-          secondary: '#7D8CC4',
+          secondary: '#a6a6a6',
           info: '#A0D2DB',
           card: '#2E2E2E',
+          link: '#fff',
           warning: colors.amber.base,
           error: colors.deepOrange.accent4,
           success: colors.green.accent3
@@ -110,9 +117,10 @@ export default {
         light: {
           primary: '#7368ed',
           accent: '#FFC759',
-          secondary: '#7D8CC4',
+          secondary: '#7a7a7a',
           info: '#36d198',
           card: '#fff',
+          link: '#000',
           warning: colors.amber.base,
           error: colors.red.darken2,
           success: colors.green.darken1

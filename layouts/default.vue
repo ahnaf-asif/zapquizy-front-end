@@ -11,17 +11,17 @@
 <!--        </div>-->
 <!--      </div>-->
 <!--    </div>-->
-      <v-app-bar v-if="!$vuetify.breakpoint.mobile" :clipped-left="clipped" app fixed flat elevation="0">
+      <v-app-bar color="card" v-if="!$vuetify.breakpoint.mobile" :clipped-left="clipped" app fixed flat elevation="0">
           <v-container class="pa-0  fill-height">
 
             <NuxtLink class="nav-link-item nav-title-link " to="/">
-              <v-toolbar-title v-text="'ZapQuizy'" class="font-weight-bold nav-title text-h4 " />
+              <v-toolbar-title v-text="'ZapQuizy'"  class="font-weight-bold text-h4 link--text" />
             </NuxtLink>
             <v-spacer />
             <DesktopNavLinks :links="links"></DesktopNavLinks>
           </v-container>
       </v-app-bar>
-
+      <div class="top" v-if="$vuetify.breakpoint.mobile" style="height: 40px;"></div>
       <v-system-bar color="card" fixed v-if="$vuetify.breakpoint.mobile" height="40">
         <v-icon style="font-size: 25px;" @click.stop="rightDrawer = !rightDrawer">mdi-menu</v-icon>
         <v-spacer></v-spacer>
@@ -38,16 +38,14 @@
         <Nuxt />
     </v-main>
 <!--    {{ $route.path }}-->
-    <div v-if="$vuetify.breakpoint.mobile" class="decoy" style="height: 60px;width: 100%;">
-
-    </div>
+    <div v-if="$vuetify.breakpoint.mobile" class="decoy" style="height: 60px;width: 100%;"></div>
 
     <v-navigation-drawer v-if="$vuetify.breakpoint.mobile" v-model="rightDrawer" :right="right" temporary fixed>
       <MobileNavLinks v-on:close-sidebar="closeSidebar()" :links="links"></MobileNavLinks>
     </v-navigation-drawer>
 
-    <v-dialog v-model="loginDialog" max-width="450" >
-      <LoginComponent></LoginComponent>
+    <v-dialog  v-model="loginDialog" max-width="450" >
+      <LoginComponent ref="login"></LoginComponent>
     </v-dialog>
     <v-dialog v-model="registerDialog" max-width="450" >
       <RegisterComponent></RegisterComponent>
@@ -55,10 +53,6 @@
 
 
     <v-bottom-navigation v-if="$vuetify.breakpoint.mobile" shift fixed>
-<!--      <v-btn @click.stop="rightDrawer = !rightDrawer" >-->
-<!--        <v-icon>mdi-menu</v-icon>-->
-<!--      </v-btn>-->
-
       <v-btn active-class="primary--text" to="/">
         <span>home</span>
         <v-icon>mdi-home</v-icon>
@@ -68,7 +62,7 @@
         <v-icon>mdi-book-open-outline</v-icon>
       </v-btn>
       <v-btn active-class="primary--text" to="/quiz/" >
-        <span>Live Exams</span>
+        <span>Quiz</span>
         <v-icon>mdi-ballot-outline</v-icon>
       </v-btn>
       <v-btn active-class="primary--text" to="/profile/" >
@@ -133,6 +127,7 @@ export default {
       links: [
         {name: 'Model Test', to: '/model-test/', icon: 'mdi-clipboard-text-multiple-outline'},
         {name: 'Quiz', to: '/quiz/', icon: 'mdi-clock-edit-outline'},
+        {name: 'Pricing', to: '/pricing/', icon: 'mdi-cash-multiple'}
       ],
       bottomNav: 'home',
     }
@@ -143,9 +138,9 @@ export default {
         path: '/'
       });
       this.rightDrawer = false;
-      // console.log('drawer closed');
     },
     openLoginForm(){
+      this.$axios.$get('/sanctum/csrf-cookie');
       this.rightDrawer = false;
       this.registerDialog = false;
       this.loginDialog = true;
@@ -156,6 +151,7 @@ export default {
       this.loginDialog = false;
     },
     openRegisterForm(){
+      this.$axios.$get('/sanctum/csrf-cookie');
       this.rightDrawer = false;
       this.registerDialog = true;
       this.loginDialog = false;
@@ -167,15 +163,7 @@ export default {
     }
   },
   mounted(){
-    // if(process.browser){
-    //   if(window.MathJax){
-    //     window.MathJax.Hub.Queue([
-    //       "Typeset",
-    //       window.MathJax.Hub,
-    //       this.$refs.equationEnabled,
-    //     ]);
-    //   }
-    // }
+
   },
   created(){
     this.$nuxt.$on('open-login-form', ()=>{
@@ -190,7 +178,6 @@ export default {
     this.$nuxt.$on('close-register-form', ()=>{
       this.closeRegisterForm();
     });
-
   },
 }
 </script>
@@ -230,7 +217,6 @@ export default {
 .top-nav{
   position: fixed;
   font-size: 12px;
-  color: whitesmoke;
   z-index: 6;
   top: 0;
   left: 0;

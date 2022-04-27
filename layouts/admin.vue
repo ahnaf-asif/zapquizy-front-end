@@ -7,6 +7,7 @@
         </NuxtLink>
         <v-spacer />
         <DesktopNavLinks :links="links"></DesktopNavLinks>
+
         <v-btn v-if="$vuetify.breakpoint.xsOnly || $vuetify.breakpoint.smOnly " icon @click.stop="rightDrawer = !rightDrawer" >
           <v-icon>mdi-menu</v-icon>
         </v-btn>

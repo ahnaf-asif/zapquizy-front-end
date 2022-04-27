@@ -12,25 +12,25 @@
       <v-list>
 
         <v-list-item style="min-height: 35px !important;" >
-          <v-btn elevation="0" color="transparent" class="navlink " to="/"> <v-icon>mdi-home-variant-outline</v-icon> Home</v-btn>
+          <v-btn color="transparent"  elevation="0"  to="/" active-class="nav-btn-active"> <v-icon>mdi-home-variant-outline</v-icon>&nbsp; Home</v-btn>
         </v-list-item>
         <v-list-item style="min-height: 35px !important;" v-for="link in links" :key="link.name">
-          <v-btn elevation="0" color="transparent" class="navlink" :to="link.to"><v-icon>{{link.icon}}</v-icon> {{ link.name }}</v-btn>
+          <v-btn elevation="0" color="transparent" active-class="nav-btn-active" :to="link.to"><v-icon>{{link.icon}}</v-icon> &nbsp; {{ link.name }}</v-btn>
         </v-list-item>
 
 <!--        // guest-->
         <v-list-item style="min-height: 35px !important;" v-if="!$auth.user">
-          <v-btn active-class="primary--text" elevation="0" color="transparent" class="navlink " @click="openLoginForm()"> <v-icon>mdi-login-variant</v-icon> Sign In</v-btn>
+          <v-btn active-class="nav-btn-active" color="transparent" elevation="0"  @click="openLoginForm()"> <v-icon>mdi-login-variant</v-icon>&nbsp; Sign In</v-btn>
         </v-list-item>
         <v-list-item style="min-height: 35px !important;" v-if="!$auth.user">
-          <v-btn elevation="0" color="transparent" @click="openRegisterForm()"><v-icon>mdi-account-plus-outline</v-icon> Register</v-btn>
+          <v-btn elevation="0" color="transparent" active-class="nav-btn-active" @click="openRegisterForm()"><v-icon>mdi-account-plus-outline</v-icon>&nbsp; Register</v-btn>
         </v-list-item>
 <!--        user-->
         <v-list-item style="min-height: 35px !important;" v-if="$auth.user">
-          <v-btn elevation="0" color="transparent" class="navlink " to="/profile/"> <v-icon>mdi-account-school-outline</v-icon> Profile</v-btn>
+          <v-btn elevation="0" color="transparent" active-class="nav-btn-active" to="/profile/"> <v-icon>mdi-account-school-outline</v-icon>&nbsp; Profile</v-btn>
         </v-list-item>
         <v-list-item style="min-height: 35px !important;" v-if="$auth.user">
-          <v-btn elevation="0" color="transparent" class="navlink " @click="logout()"> <v-icon>mdi-arrow-left-thin-circle-outline</v-icon> Sign Out</v-btn>
+          <v-btn elevation="0" color="transparent" active-class="nav-btn-active" @click="logout()"> <v-icon>mdi-arrow-left-thin-circle-outline</v-icon>&nbsp; Sign Out</v-btn>
         </v-list-item>
       </v-list>
 
@@ -89,5 +89,11 @@ export default {
     align-items: center;
     justify-content: center;
   }
-
+  .nav-btn-active{
+    background: transparent !important;
+    color: #7368ed !important;
+    &::before{
+      opacity: 0;
+    }
+  }
 </style>

@@ -2,11 +2,43 @@
   <v-container>
     <h1 class="my-5 text-h4 text-center">{{ modelTestPackage.name }}</h1>
     <v-row>
-      <v-col cols="12" md="6">
-        <img alt="Cover Image" style="width: 100%;" :src="`${$axios.defaults.baseURL}${modelTestPackage.cover_image}`" />
-      </v-col>
-      <v-col cols="12" md="6">
+      <v-col cols="12" md="8">
+        <h1 class="mt-10 mb-5 text-h4">Model Tests</h1>
+        <v-data-table
+          :headers="modelTestHeaders"
+          :items="modelTests"
+          :items-per-page="10"
+          class="elevation-1"
+        >
+          <template v-slot:item.Visit="{ item }">
 
+            <v-btn small :to="`/admin/model-test/${item.id}`" color="success">
+              Enter
+            </v-btn>
+
+          </template>
+        </v-data-table>
+
+        <h1 class="mt-10 mb-5 text-h4">Question Banks</h1>
+
+        <v-data-table
+          :headers="modelTestHeaders"
+          :items="questionBanks"
+          :items-per-page="10"
+          class="elevation-1"
+        >
+          <template v-slot:item.Visit="{ item }">
+
+            <v-btn small :to="`/admin/question-bank/${item.id}`" color="success">
+              Enter
+            </v-btn>
+
+          </template>
+        </v-data-table>
+
+      </v-col>
+      <v-col cols="12" md="4">
+        <img alt="Cover Image" style="width: 100%;" :src="`${$axios.defaults.baseURL}${modelTestPackage.cover_image}`" />
         <v-card elevation="1">
           <v-card-text>
             <v-alert v-if="submitError" type="error">{{submitErrorText}}</v-alert>
@@ -51,29 +83,9 @@
           </v-card-text>
         </v-card>
       </v-col>
+
     </v-row>
-    <h1 class="mt-10 mb-5 text-h4 text-center">Model Tests</h1>
-    <v-data-table
-      :headers="modelTestHeaders"
-      :items="modelTests"
-      :items-per-page="10"
-      class="elevation-1"
-    >
-      <template v-slot:item.enter="{ item }">
 
-        <v-btn small color="success">
-          <NuxtLink class="btnlink" :to="`/admin/model-test/${item.id}`">Enter</NuxtLink>
-        </v-btn>
-
-      </template>
-      <template v-slot:item.delete="{ item }">
-
-        <v-btn @click="deleteModelTest(item.id)" small color="error">
-          Delete
-        </v-btn>
-
-      </template>
-    </v-data-table>
   </v-container>
 </template>
 
@@ -89,7 +101,8 @@ export default {
     let levels = await $http.$get('/api/levels');
     let modelTestPackage = await $http.$get(`/api/admin/model-test-package/get/${params.id}`);
     let modelTests = await $http.$get(`/api/admin/model-test-package/${params.id}/model-tests`);
-    return { subjects, levels, modelTestPackage, modelTests };
+    let questionBanks = await $http.$get(`/api/admin/model-test-package/${params.id}/question-banks`);
+    return { subjects, levels, modelTestPackage, modelTests, questionBanks };
   },
   created(){
     console.log(this.modelTests);
@@ -108,8 +121,7 @@ export default {
         { text: 'Model Test Name', value: 'name'},
         { text: 'Subject', value: 'subject.name'},
         { text: 'Level', value: 'level.name'},
-        { text: 'Action', value: 'enter'},
-        { text: 'Action', value: 'delete'}
+        { text: 'Action', value: 'Visit'},
       ],
     }
   },

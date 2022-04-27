@@ -109,15 +109,7 @@ export default {
       requestNewOtpBtnText: 'Request new OTP code',
     }
   },
-  mounted(){
-    this.$refs.scrollTop = 0;
-    console.log(this.$axios.$get('/sanctum/csrf-cookie'));
-  },
-  beforeRouteEnter(to, from, next){
-    next( vm=>{
-      vm.prevRoute = from
-    })
-  },
+
   methods: {
     resetData(){
       this.disableBtn = false;
@@ -166,13 +158,13 @@ export default {
             password: this.password,
             verify: false,
           };
-          const user_verification_status = await this.$axios.$post('/api/check-phone-verification', formData);
-          // console.log(user_verification_status);
-          if(user_verification_status.phone_verified === true){
+          const user = await this.$axios.$post('/api/check-phone-verification', formData);
+          if(user.length  && user[0].phone_verified){
             try{
               const resp = await this.$auth.loginWith('laravelSanctum', {
                 data: formData
               });
+              // console.log('here login is happening')
               this.resetData();
               this.$nuxt.$emit('close-login-form');
             }catch(err){
@@ -182,9 +174,10 @@ export default {
             }
           }
           else{
-            this.phoneVerificationError = true;
-            this.disableBtn = false;
+
           }
+
+
         }catch(err){
           this.disableBtn = false;
           console.log(`error hoise: ${err}`);

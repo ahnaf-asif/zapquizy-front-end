@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h1 class="my-5 text-h4 text-center">Add New Model Test</h1>
+    <h1 class="my-5 text-h4 text-center">Add New Model Test Package</h1>
     <v-card elevation="1">
       <v-card-text>
         <v-alert v-if="submitError" type="error">{{submitErrorText}}</v-alert>
@@ -19,7 +19,7 @@
             required></v-text-field>
           <v-file-input
             v-model="coverImage"
-            label="Cover Image"
+            label="Model Test Package Cover Image"
             show-size
             accept="image/*"
             append-icon="mdi-camera"
@@ -44,6 +44,26 @@
             label="Subject"
             required >
           </v-select>
+          <v-text-field
+            v-model="authorName"
+            label="Author Name"
+            :rules="[v => !!v || 'Author name is required']"
+            type="text"
+            required></v-text-field>
+          <v-text-field
+            v-model="authorDesignation"
+            label="Author Designation"
+            :rules="[v => !!v || 'Author designation is required']"
+            type="text"
+            required></v-text-field>
+          <v-file-input
+            v-model="authorPicture"
+            label="Author Picture"
+            show-size
+            accept="image/*"
+            append-icon="mdi-camera"
+            prepend-icon=""
+            required></v-file-input>
           <div class="text-center">
             <v-btn color="primary" large @click="addModelTestPackage()">
               Add Model Test Package
@@ -111,11 +131,14 @@ export default {
       selectedLevel: null,
       coverImage: null,
       price: null,
+      authorName: null,
+      authorDesignation: null,
+      authorPicture: null,
 
       submitError: false,
       submitErrorText: '',
       packageHeaders: [
-        { text: 'Model Test Name', value: 'name'},
+        { text: 'Package Name', value: 'name'},
         { text: 'Price', value: 'price'},
         { text: 'Subject', value: 'subject.name'},
         { text: 'Level', value: 'level.name'},
@@ -137,16 +160,28 @@ export default {
           }
         }
         const data = new FormData();
+
         data.append('file', this.coverImage);
-        const res = await this.$axios.post('/api/image/upload', data, config);
-        console.log(res);
-        if(res.status === 200){
+        const coverImageUploaded = await this.$axios.post('/api/image/upload', data, config);
+        // console.log(res);
+
+        const data2 = new FormData();
+
+        data2.append('file', this.authorPicture);
+        const authorPictureUploaded = await this.$axios.post('/api/image/upload', data2, config);
+        // console.log(res2);
+        // return;
+
+        if(res.status === 200 && res2.status === 200){
           let newModelTestPackage = {
             name: this.newName,
             price: this.price,
             subject_id: this.selectedSubject,
             level_id: this.selectedLevel,
-            cover_image: res.data.file_path,
+            cover_image: coverImageUploaded.data.file_path,
+            author_name: this.authorName,
+            author_designation: this.authorDesignation,
+            author_picture: this.authorPictureUploaded.data.file_path
           };
           try{
             // console.log(newModelTestPackage);

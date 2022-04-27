@@ -3,8 +3,8 @@
     <h2 class="text-md-h4 text-h5 mt-5 mt-md-10 ">{{ title }}</h2>
 <!--    <v-divider></v-divider>-->
     <div v-if="$vuetify.breakpoint.mobile" class="model-test-scroller">
-      <div v-for="test in testList" :key="test"  class="card my-2 ml-2">
-        <v-card to="/" class="rounded-lg" width="200" color="card">
+      <div v-for="(test, i) in testList" :key="i"  class="card my-2 ml-2">
+        <v-card to="/model-test/view/13" class="rounded-lg" width="200" >
           <v-img height="100" :src="test.img"></v-img>
           <div class="text-center py-2 font-weight-bold">
             {{ test.name }}
@@ -13,8 +13,8 @@
       </div>
     </div>
     <v-row v-else>
-      <v-col v-for="test in testList" :key="test" cols="12" md="3">
-        <v-card to="/" color="card" class="mx-auto my-3 rounded-lg" max-width="374">
+      <v-col v-for="(test, i) in testList" :key="i" cols="12" md="3">
+        <v-card to="/model-test/view/13"  class="mx-auto my-3 rounded-lg" max-width="374">
           <v-img height="150" :src="test.img"></v-img>
           <v-card-title>{{ test.name }}</v-card-title>
         </v-card>
